@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import storeData from '../data/storeData.json';
 import L from 'leaflet';
-import './StoreList.css'; // Assuming you have this CSS file imported
+import './StoreList.css';
 
 const StoreList = () => {
     const [map, setMap] = useState(null);
@@ -24,7 +24,8 @@ const StoreList = () => {
         const shopsLayer = L.geoJSON(storeData, {
             onEachFeature: onEachFeature,
             pointToLayer: function (feature, latlng) {
-                return L.marker(latlng, { icon: myIcon });
+                // return L.marker(latlng, { icon: myIcon });
+                return L.marker(latlng);
             }
         });
         shopsLayer.addTo(myMap);
@@ -32,7 +33,7 @@ const StoreList = () => {
         return () => {
             myMap.remove();
         };
-    }, [storeData]); // Adding storeList to dependencies as it might change
+    }, [storeData]);
 
     const onEachFeature = (feature, layer) => {
         // Define what happens on click of each feature
@@ -76,16 +77,16 @@ const StoreList = () => {
 
     return (
         <div>
-            <main className='col-12 d-flex'>
+            <main className=''>
                 <div className="store-list col-3">
                     <div className="heading">
-                        <h2>Our outlets</h2>
+                        <h2>Our Connections</h2>
                     </div>
                     <ul className="list">
                         {generateList()}
                     </ul>
                 </div>
-                <div className='col-9' id="map" />
+                <div className='col-12' id="map" />
             </main>
         </div>
     );
