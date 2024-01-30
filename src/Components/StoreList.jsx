@@ -14,7 +14,7 @@ const StoreList = () => {
     // const [searchResult, setSearchResult] = useState(null);
 
 
-    console.log("Search Data : ", searchData);
+    // console.log("Search Data : ", searchData);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -65,23 +65,29 @@ const StoreList = () => {
                     if (nearestStore) {
                         const storeLocation = L.latLng(nearestStore.geometry.coordinates[1], nearestStore.geometry.coordinates[0]);
 
-                        // Add routing control with waypoints (search location and nearest store)
-                        L.Routing.control({
+                        const routingControl = L.Routing.control({
                             waypoints: [
                                 L.latLng(center),
                                 storeLocation
                             ],
                             routeWhileDragging: true
-
                         }).addTo(myMap);
-                        console.log('Routing control added');
 
-                        // Calculate and display distance between search location and nearest store
-                        const distance = center.distanceTo(storeLocation);
-                        // const distanceInKm = (distance / 1000).toFixed(2);  
-                        setEstimatedDistance(distance.toFixed(2));
-                        // console.log(`Distance to nearest store: ${distanceInKm} km`);
-                        // console.log(`Distance to nearest store: ${distance.toFixed(2)} meter`);
+                        // console.log('Routing control added');
+
+                        // Add an event listener to the routing control to log instructions
+                        routingControl.on('routesfound', function (event) {
+                            const routes = event.routes;
+                            routes.forEach(function (route, index) {
+                                // console.log(`Route ${index + 1}:`);
+                                const distance = route.summary.totalDistance;
+                                setEstimatedDistance(distance);
+                                // console.log(` Routing Step Distance to nearest store: ${distance} meters`);
+                                // route.instructions.forEach(function (instruction, i) {
+                                //     console.log(`Routing Step ${i + 1}: ${instruction.text}`);
+                                // });
+                            });
+                        });
                     }
                 } else {
                     console.log('No results found for the search location.');
@@ -89,19 +95,8 @@ const StoreList = () => {
             });
         }
 
-
-        // let totalCost = 0;
-        // const meterCost = 1000;
-
-        // totalCost = meterCost + estimatedDistance * 15;
-        // setEstimatedCost(totalCost);
-
-
-
-        console.log(`Distance to nearest store: ${estimatedDistance} km`);
-        console.log(`estimatedCost : ${estimatedCost} TK`);
-
-
+        // console.log(`Distance to nearest store: ${estimatedDistance} km`);
+        // console.log(`estimatedCost : ${estimatedCost} TK`);
 
         // Create custom icon
         const myIcon = L.icon({
@@ -126,9 +121,9 @@ const StoreList = () => {
 
     useEffect(() => {
         let totalCost = 0;
-        const meterCost = 1000;
+        const setupCost = 1000;
 
-        totalCost = meterCost + estimatedDistance * 15;
+        totalCost = setupCost + estimatedDistance * 15;
         setEstimatedCost(totalCost.toFixed(2));
     }, [estimatedDistance]);
 
@@ -152,7 +147,7 @@ const StoreList = () => {
     const flyToStore = (store) => {
         const lat = store.geometry.coordinates[1];
         const lng = store.geometry.coordinates[0];
-        map.flyTo([lat, lng], 16, { duration: 3 });
+        map.flyTo([lat, lng], 15, { duration: 3 });
         setTimeout(() => {
             L.popup({ closeButton: false, offset: L.point(0, -8) })
                 .setLatLng([lat, lng])
@@ -341,8 +336,8 @@ const StoreList = () => {
                         estimatedDistance &&
                         <div className=' my-4 fw-bold'>
                             <h3 className=' fw-bold text-primary'>Estimated Cost</h3>
-                            <p className=' mb-0'>   Distance From nearest point = {estimatedDistance} Meter </p>
-                            <p className=' mt-0'>   Total Cost(Meter + Cable ) = {estimatedCost} TK</p>
+                            <p className=' mb-0'>Distance from nearest point = {estimatedDistance} Meter </p>
+                            <p className=' mt-0'>Total Cost(SetupCost + Cable ) = {estimatedCost} TK</p>
                         </div>
                     }
 
