@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
-import L from 'leaflet';
 import storeData from '../data/storeData.json';
-import './StoreList.css';
+import L from 'leaflet';
+import 'leaflet-routing-machine';
+import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
 import SadhinIcon from '../assets/sadhin.png';
+import './StoreList.css';
 
 const StoreList = () => {
     const [map, setMap] = useState(null);
     const [searchData, setSearchData] = useState(null);
-    const [searchResult, setSearchResult] = useState(null);
+    // const [searchResult, setSearchResult] = useState(null);
 
     console.log("Search Data : ", searchData);
 
@@ -37,7 +39,6 @@ const StoreList = () => {
         setMap(myMap);
 
         if (searchData) {
-            // Perform the search based on the searchData
             const { division, district, thana, union } = searchData;
             const searchLocation = `${division}, ${district}, ${thana}, ${union}`;
 
@@ -46,16 +47,38 @@ const StoreList = () => {
 
             geocoder.geocode(searchLocation, (results) => {
                 if (results && results.length > 0) {
-                    const { center, name } = results[0];
-                    setSearchResult({ name, latlng: center });
+                    const { center } = results[0];
+                    // setSearchResult({ name, latlng: center });
                     myMap.setView(center);
                     L.marker(center).addTo(myMap);
+
+                    const nearestStore = findNearestStore(center);
+
+                    // Calculate the route to the nearest store
+                    if (nearestStore) {
+                        const storeLocation = L.latLng(nearestStore.geometry.coordinates[1], nearestStore.geometry.coordinates[0]);
+
+                        // Add routing control with waypoints (search location and nearest store)
+                        L.Routing.control({
+                            waypoints: [
+                                L.latLng(center),
+                                storeLocation
+                            ],
+                            routeWhileDragging: true
+
+                        }).addTo(myMap);
+                        console.log('Routing control added');
+
+                        // Calculate and display distance between search location and nearest store
+                        const distance = center.distanceTo(storeLocation);
+                        const distanceInKm = (distance / 1000).toFixed(2); // Convert meters to kilometers and round to 2 decimal places
+                        console.log(`Distance to nearest store: ${distanceInKm} km`);
+                    }
                 } else {
                     console.log('No results found for the search location.');
                 }
             });
         }
-
 
         // Create custom icon
         const myIcon = L.icon({
@@ -68,7 +91,6 @@ const StoreList = () => {
             onEachFeature: onEachFeature,
             pointToLayer: function (feature, latlng) {
                 return L.marker(latlng, { icon: myIcon });
-                // return L.marker(latlng);
             }
         });
         shopsLayer.addTo(myMap);
@@ -99,7 +121,7 @@ const StoreList = () => {
     const flyToStore = (store) => {
         const lat = store.geometry.coordinates[1];
         const lng = store.geometry.coordinates[0];
-        map.flyTo([lat, lng], 14, { duration: 3 });
+        map.flyTo([lat, lng], 11, { duration: 3 });
         setTimeout(() => {
             L.popup({ closeButton: false, offset: L.point(0, -8) })
                 .setLatLng([lat, lng])
@@ -110,6 +132,10 @@ const StoreList = () => {
 
     // generateExistingLocationList
     const generateList = () => {
+        if (!storeData || storeData.length === 0) {
+            return <li>No store data available.</li>;
+        }
+
         return storeData.map((shop, index) => (
             <li key={index}>
                 <div className="shop-item">
@@ -119,6 +145,33 @@ const StoreList = () => {
             </li>
         ));
     };
+
+
+
+    // Function to find the nearest store
+    const findNearestStore = (searchLocation) => {
+        if (!storeData || storeData.length === 0) {
+            return <li>No store data available.</li>;
+        }
+
+        console.log("Store data is available");
+
+        let nearestStore = null;
+        let shortestDistance = Infinity;
+
+        for (let i = 0; i < storeData.length; i++) {
+            const store = storeData[i];
+            const storeLocation = L.latLng(store.geometry.coordinates[1], store.geometry.coordinates[0]);
+            const distance = searchLocation.distanceTo(storeLocation);
+            if (distance < shortestDistance) {
+                shortestDistance = distance;
+                nearestStore = store;
+            }
+        }
+
+        return nearestStore;
+    };
+
 
     return (
         <div className='d-md-flex'>
