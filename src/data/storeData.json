@@ -94,13 +94,13 @@
         "geometry": {
             "type": "Point",
             "coordinates": [
-                91.87000718368432,
-                25.369688046468886
+                89.213019,
+                23.408885
             ]
         },
         "properties": {
             "name": "Sadhin WiFi 7",
-            "address": "No. 1-5, Building, Shop, No. 35, Evershine Millennium Paradise, Thakur Village, Kandivali East, Mumbai, Maharashtra 400101, Bangladesh",
+            "address": "Kaliganj Upozila, Satkhira, Bangladesh",
             "phone": "23 2323 2323"
         }
     },
@@ -184,8 +184,8 @@
         "geometry": {
             "type": "Point",
             "coordinates": [
-                90.20013946592568,
-                21.445776280248875
+                88.503400,
+                24.811298
             ]
         },
         "properties": {
@@ -214,8 +214,8 @@
         "geometry": {
             "type": "Point",
             "coordinates": [
-                88.37169708790122,
-                21.746728369050265
+                88.462431,
+                26.266314
             ]
         },
         "properties": {
@@ -244,8 +244,8 @@
         "geometry": {
             "type": "Point",
             "coordinates": [
-                88.25635774311033,
-                23.52684590645143
+                90.807295,
+                23.987217
             ]
         },
         "properties": {
@@ -259,8 +259,8 @@
         "geometry": {
             "type": "Point",
             "coordinates": [
-                25.030694393365553,
-                89.20909072524507
+                92.154724,
+                22.361605
             ]
         },
         "properties": {
@@ -289,8 +289,8 @@
         "geometry": {
             "type": "Point",
             "coordinates": [
-                91.20147436662204,
-                22.038891961060245
+                90.137129,
+                22.017258
             ]
         },
         "properties": {
@@ -431,6 +431,36 @@
         "properties": {
             "name": "Sadhin WiFi 28",
             "address": "Vignesh Plaza, A-6, Ground Floor, Thillai Nagar Main Rd, Tiruchirappalli, Tamil Nadu 620018, Bangladesh",
+            "phone": "23 2323 2323"
+        }
+    },
+    {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                89.527534,
+                22.864128
+            ]
+        },
+        "properties": {
+            "name": "Sadhin WiFi 29",
+            "address": "Daulatpur, Khulna, Bangladesh",
+            "phone": "23 2323 2323"
+        }
+    },
+    {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                89.595151,
+                22.462149
+            ]
+        },
+        "properties": {
+            "name": "Sadhin WiFi 30",
+            "address": "Mongla port, Mongla, Bagerhat, Bangladesh",
             "phone": "23 2323 2323"
         }
     }

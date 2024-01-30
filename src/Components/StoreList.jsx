@@ -9,7 +9,10 @@ import './StoreList.css';
 const StoreList = () => {
     const [map, setMap] = useState(null);
     const [searchData, setSearchData] = useState(null);
+    const [estimatedDistance, setEstimatedDistance] = useState(null);
+    const [estimatedCost, setEstimatedCost] = useState(null);
     // const [searchResult, setSearchResult] = useState(null);
+
 
     console.log("Search Data : ", searchData);
 
@@ -21,9 +24,13 @@ const StoreList = () => {
         const district = form.district.value;
         const thana = form.thana.value;
         const union = form.union.value;
+        const village = form.village.value;
+        const holding = form.holding.value;
+        const direction = form.direction.value;
+        const address = form.address.value;
 
         const searchData = {
-            division, district, thana, union
+            division, district, thana, union, village, holding, direction, address
         }
         setSearchData(searchData);
     };
@@ -39,8 +46,8 @@ const StoreList = () => {
         setMap(myMap);
 
         if (searchData) {
-            const { division, district, thana, union } = searchData;
-            const searchLocation = `${division}, ${district}, ${thana}, ${union}`;
+            const { division, district, thana, union, village, holding, direction, address } = searchData;
+            const searchLocation = `${division}, ${district}, ${thana}, ${union}, ${village} , ${holding}, ${direction}, ${address}`;
 
             // Initialize the geocoder control
             const geocoder = L.Control.Geocoder.nominatim();
@@ -71,14 +78,30 @@ const StoreList = () => {
 
                         // Calculate and display distance between search location and nearest store
                         const distance = center.distanceTo(storeLocation);
-                        const distanceInKm = (distance / 1000).toFixed(2); // Convert meters to kilometers and round to 2 decimal places
-                        console.log(`Distance to nearest store: ${distanceInKm} km`);
+                        // const distanceInKm = (distance / 1000).toFixed(2);  
+                        setEstimatedDistance(distance.toFixed(2));
+                        // console.log(`Distance to nearest store: ${distanceInKm} km`);
+                        // console.log(`Distance to nearest store: ${distance.toFixed(2)} meter`);
                     }
                 } else {
                     console.log('No results found for the search location.');
                 }
             });
         }
+
+
+        // let totalCost = 0;
+        // const meterCost = 1000;
+
+        // totalCost = meterCost + estimatedDistance * 15;
+        // setEstimatedCost(totalCost);
+
+
+
+        console.log(`Distance to nearest store: ${estimatedDistance} km`);
+        console.log(`estimatedCost : ${estimatedCost} TK`);
+
+
 
         // Create custom icon
         const myIcon = L.icon({
@@ -101,6 +124,14 @@ const StoreList = () => {
     }, [searchData]);
 
 
+    useEffect(() => {
+        let totalCost = 0;
+        const meterCost = 1000;
+
+        totalCost = meterCost + estimatedDistance * 15;
+        setEstimatedCost(totalCost.toFixed(2));
+    }, [estimatedDistance]);
+
     const onEachFeature = (feature, layer) => {
         // Define what happens on click of each feature
         layer.bindPopup(makePopupContent(feature), { closeButton: false, offset: L.point(0, -8) });
@@ -121,7 +152,7 @@ const StoreList = () => {
     const flyToStore = (store) => {
         const lat = store.geometry.coordinates[1];
         const lng = store.geometry.coordinates[0];
-        map.flyTo([lat, lng], 11, { duration: 3 });
+        map.flyTo([lat, lng], 16, { duration: 3 });
         setTimeout(() => {
             L.popup({ closeButton: false, offset: L.point(0, -8) })
                 .setLatLng([lat, lng])
@@ -176,15 +207,17 @@ const StoreList = () => {
     return (
         <div className='d-md-flex'>
             <div className='formArea col-3'>
-                <div className='addreddBG'>
+
+                <div className='addreddBG p-3'>
+                    <h3 className=' fw-bold text-primary'>Address</h3>
                     <form onSubmit={handleSubmit}>
                         {/* <form> */}
-                        <div className='row g-3 mb-3'>
+                        <div className='row g-3 mb-2'>
                             <div className='col'>
-                                <label htmlFor="division" className="form-label">Division:</label>
+                                <label htmlFor="division" className="form-label mb-0">Division:</label>
                                 <input
                                     type="text"
-                                    className="form-control"
+                                    className="form-control mt-0"
                                     id="division"
                                     name="division"
                                     aria-describedby="division"
@@ -195,56 +228,123 @@ const StoreList = () => {
                                 />
                             </div>
                             <div className='col'>
-                                <label htmlFor="district" className="form-label">District:</label>
+                                <label htmlFor="district" className="form-label mb-0">District:</label>
                                 <input
                                     type="text"
-                                    className="form-control"
+                                    className="form-control mt-0"
                                     id="district"
                                     name="district"
                                     aria-describedby="district"
                                     // value={district}
                                     // onChange={(e) => setDistrict(e.target.value)}
                                     onChange={(e) => setSearchData({ ...searchData, district: e.target.value })}
-
                                 />
                             </div>
                         </div>
-                        <div className='row g-3 mb-3'>
+
+                        <div className='row g-3 mb-2'>
                             <div className='col'>
-                                <label htmlFor="thana" className="form-label">SubDistrict/Thana:</label>
+                                <label htmlFor="thana" className="form-label mb-0">SubDistrict/Thana:</label>
                                 <input
                                     type="text"
-                                    className="form-control"
+                                    className="form-control mt-0"
                                     id="thana"
                                     name="thana"
                                     aria-describedby="thana"
                                     // value={thana}
                                     // onChange={(e) => setThana(e.target.value)}
                                     onChange={(e) => setSearchData({ ...searchData, thana: e.target.value })}
-
-
                                 />
                             </div>
                             <div className='col'>
-                                <label htmlFor="union" className="form-label">City Corporation/Union:</label>
+                                <label htmlFor="union" className="form-label mb-0">CityCorporation/Union:</label>
                                 <input
                                     type="text"
-                                    className="form-control"
+                                    className="form-control mt-0"
                                     id="union"
                                     name="union"
                                     aria-describedby="union"
                                     // value={union}
                                     // onChange={(e) => setUnion(e.target.value)}
                                     onChange={(e) => setSearchData({ ...searchData, union: e.target.value })}
+                                />
+                            </div>
 
+
+                        </div>
+
+                        <div className='row g-3 mb-2'>
+                            <div className='col'>
+                                <label htmlFor="village" className="form-label mb-0">Village/WordNo:</label>
+                                <input
+                                    type="text"
+                                    className="form-control mt-0"
+                                    id="village"
+                                    name="village"
+                                    aria-describedby="village"
+                                    // value={village}
+                                    // onChange={(e) => setVillage(e.target.value)}
+                                    onChange={(e) => setSearchData({ ...searchData, village: e.target.value })}
+                                />
+                            </div>
+                            <div className='col'>
+                                <label htmlFor="holding" className="form-label mb-0">HoldingNo:</label>
+                                <input
+                                    type="text"
+                                    className="form-control mt-0"
+                                    id="holding"
+                                    name="holding"
+                                    aria-describedby="holding"
+                                    // value={holding}
+                                    // onChange={(e) => setHolding(e.target.value)}
+                                    onChange={(e) => setSearchData({ ...searchData, holding: e.target.value })}
                                 />
                             </div>
                         </div>
+
+
+                        <div className='col mb-2'>
+                            <label htmlFor="direction" className="form-label mb-0">Direction:</label>
+                            <input
+                                type="text"
+                                className="form-control mt-0"
+                                id="direction"
+                                name="direction"
+                                aria-describedby="direction"
+                                // value={direction}
+                                // onChange={(e) => setDirection(e.target.value)}
+                                onChange={(e) => setSearchData({ ...searchData, direction: e.target.value })}
+                            />
+                        </div>
+
+                        <div className='col mb-2'>
+                            <label htmlFor="address" className="form-label mb-0">Address:</label>
+                            <input
+                                type="text"
+                                className="form-control mt-0"
+                                id="address"
+                                name="address"
+                                aria-describedby="address"
+                                // value={address}
+                                // onChange={(e) => setAddress(e.target.value)}
+                                onChange={(e) => setSearchData({ ...searchData, address: e.target.value })}
+                            />
+                        </div>
+
 
                         <button type="submit" className="btn btn-primary">
                             Search
                         </button>
                     </form>
+
+                    {
+                        estimatedDistance &&
+                        <div className=' my-4 fw-bold'>
+                            <h3 className=' fw-bold text-primary'>Estimated Cost</h3>
+                            <p className=' mb-0'>   Distance From nearest point = {estimatedDistance} Meter </p>
+                            <p className=' mt-0'>   Total Cost(Meter + Cable ) = {estimatedCost} TK</p>
+                        </div>
+                    }
 
                 </div>
             </div>
@@ -257,7 +357,7 @@ const StoreList = () => {
                         {generateList()}
                     </ul>
                 </div>
-                <div className='col-12' id="map" />
+                <div className='col-10' id="map" />
             </main>
         </div>
     );
