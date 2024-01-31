@@ -344,7 +344,8 @@ const StoreList = () => {
                 </div>
             </div>
             <main className='col-9'>
-                <div className="store-list col-2">
+                {/* <div className="store-list col-2"> */}
+                <div className="store-list">
                     <div className="heading">
                         <h3>Connections</h3>
                     </div>
@@ -352,7 +353,7 @@ const StoreList = () => {
                         {generateList()}
                     </ul>
                 </div>
-                <div className='col-10' id="map" />
+                <div className='col-12' id="map" />
             </main>
         </div>
     );
