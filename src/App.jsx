@@ -1,10 +1,10 @@
 import './App.css';
-import StoreList from './Components/StoreList';
+import ShadhinWifiPoints from './Components/ShadhinWifiPoints';
 
 function App() {
   return (
     <div>
-      <StoreList />
+      <ShadhinWifiPoints />
     </div>
   );
 }

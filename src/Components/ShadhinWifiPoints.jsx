@@ -4,9 +4,9 @@ import L from 'leaflet';
 import 'leaflet-routing-machine';
 import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
 import SadhinIcon from '../assets/sadhin.png';
-import './StoreList.css';
+import './ShadhinWifiPoints.css';
 
-const StoreList = () => {
+const ShadhinWifiPoints = () => {
     const [map, setMap] = useState(null);
     const [searchData, setSearchData] = useState(null);
     const [estimatedDistance, setEstimatedDistance] = useState(null);
@@ -359,4 +359,4 @@ const StoreList = () => {
     );
 };
 
-export default StoreList;
+export default ShadhinWifiPoints;
