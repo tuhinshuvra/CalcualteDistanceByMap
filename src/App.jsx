@@ -1,10 +1,15 @@
-import './App.css';
-import ShadhinWifiPoints from './Components/ShadhinWifiPoints';
+import { RouterProvider } from 'react-router-dom';
+// import './App.css';
+import ExistingConnectionStatus from './Components/ExistingConnectionStatus';
+import { Toaster } from 'react-hot-toast';
+import Router from './Routes/Router'
 
 function App() {
   return (
     <div>
-      <ShadhinWifiPoints />
+      <RouterProvider router={Router}></RouterProvider>
+      <Toaster />
+      {/* <ShadhinWifiPoints /> */}
     </div>
   );
 }
