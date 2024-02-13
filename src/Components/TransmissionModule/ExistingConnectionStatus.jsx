@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import storeData from '../data/storeData.json';
+import storeData from '../../data/storeData.json';
 import L from 'leaflet';
 import 'leaflet-routing-machine';
 import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
-import SadhinIcon from '../assets/sadhin.png';
+import SadhinIcon from '../../assets/sadhin.png';
 import './ExistingConnectionStatus.css';
 
 const ExistingConnectionStatus = () => {

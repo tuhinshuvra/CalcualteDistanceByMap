@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const NewConnection = () => {
+const newLoop = () => {
 
     const [searchData, setSearchData] = useState(null);
     const [estimatedDistance, setEstimatedDistance] = useState(null);
@@ -175,4 +175,4 @@ const NewConnection = () => {
     );
 };
 
-export default NewConnection;
+export default newLoop;

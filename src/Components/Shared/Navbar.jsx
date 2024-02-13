@@ -17,8 +17,20 @@ const Navbar = () => {
                         <li className="nav-item">
                             <Link className="nav-link fw-bold" to="/connectionList">All Connections</Link>
                         </li>
-                        <li className="nav-item">
-                            <Link className="nav-link fw-bold" to="/newConnection">New Connections</Link>
+
+
+                        <li className="nav-item dropdown">
+                            <Link className="nav-link dropdown-toggle fw-bold" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                New Connection
+                            </Link>
+                            <ul className="dropdown-menu">
+                                <li><Link className="dropdown-item" to="/newConnection">New Connection</Link></li>
+                                <li><Link className="dropdown-item" to="/newLoop">New Loop</Link></li>
+                                <li><Link className="dropdown-item" to="/newLoop">New Pop</Link></li>
+                                <li><Link className="dropdown-item" to="/newLoop">New TJbox</Link></li>
+                                <li><Link className="dropdown-item" to="/newLoop">New Customers</Link></li>
+                                <li><Link className="dropdown-item" to="/newLoop">New Companies</Link></li>
+                            </ul>
                         </li>
 
                         <li className="nav-item dropdown">
@@ -29,7 +41,7 @@ const Navbar = () => {
                                 <li><Link className="dropdown-item" to="/signup">SignUp</Link></li>
                                 <li><Link className="dropdown-item" to="/login">Login</Link></li>
                                 <li><hr className="dropdown-divider" /></li>
-                                <li><Link className="dropdown-item" to="/newConnection">NewConnection</Link></li>
+                                <li><Link className="dropdown-item" to="/newLoop">newLoop</Link></li>
                                 <li><Link className="dropdown-item" to="/connectionList">ConnectionStatus</Link></li>
                                 <li><hr className="dropdown-divider" /></li>
                                 <li><Link className="dropdown-item" to="#">Logout</Link></li>
