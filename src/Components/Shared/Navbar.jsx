@@ -5,7 +5,7 @@ const Navbar = () => {
 
         <nav className="navbar navbar-expand-lg bg-secondary">
             <div className=" container ">
-                <Link className="navbar-brand fs-1 fw-bolder" to="/">TransmissionModule</Link>
+                <Link className="navbar-brand fs-1 fw-bolder text-white" to="/">TransmissionModule</Link>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
@@ -40,9 +40,6 @@ const Navbar = () => {
                             <ul className="dropdown-menu">
                                 <li><Link className="dropdown-item" to="/signup">SignUp</Link></li>
                                 <li><Link className="dropdown-item" to="/login">Login</Link></li>
-                                <li><hr className="dropdown-divider" /></li>
-                                <li><Link className="dropdown-item" to="/newLoop">newLoop</Link></li>
-                                <li><Link className="dropdown-item" to="/connectionList">ConnectionStatus</Link></li>
                                 <li><hr className="dropdown-divider" /></li>
                                 <li><Link className="dropdown-item" to="#">Logout</Link></li>
                             </ul>

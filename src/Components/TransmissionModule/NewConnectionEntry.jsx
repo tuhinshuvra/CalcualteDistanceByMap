@@ -1,7 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
+import { getAllDivision, getAllDistrict, getAllUpazila, getAllUnion } from 'bd-divisions-to-unions';
+
+// console.log(getAllDivision())
+console.log(getAllDistrict())
+// console.log(getAllUpazila())
+// console.log(getAllUnion())
 
 const NewConnectionEntry = () => {
+
     const [formData, setFormData] = useState({
+        division: '',
         district: '',
         thana: '',
         union: '',
@@ -13,6 +22,12 @@ const NewConnectionEntry = () => {
         remarks: '',
     });
 
+    const [districts, setDistricts] = useState([]);
+    const [thanas, setThanas] = useState([]);
+    const [unions, setUnions] = useState([]);
+
+    console.log("districts list", districts);
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -21,10 +36,59 @@ const NewConnectionEntry = () => {
         });
     };
 
+    // select district
+    useEffect(() => {
+        if (formData.division !== '') {
+            const divisionId = formData.division;
+            const allDistricts = getAllDistrict("en");
+            console.log("All Districts:", allDistricts);
+            const divisionDistricts = allDistricts[divisionId];
+            console.log("Division Districts:", divisionDistricts);
+            setDistricts(divisionDistricts);
+        } else {
+            setDistricts([]);
+        }
+    }, [formData.division]);
+
+
+    // select thanas
+    useEffect(() => {
+        if (formData.district !== '') {
+            const districtId = formData.district;
+            const allThana = getAllUpazila("en");
+            console.log("All Thana:", allThana);
+            const districtsThanas = allThana[districtId];
+            console.log("Districts Thanas:", districtsThanas);
+            setThanas(districtsThanas);
+        } else {
+            setThanas([]);
+        }
+
+    }, [formData.district]);
+
+
+    // select unions
+    useEffect(() => {
+        if (formData.thana !== '') {
+            const thanaId = formData.thana;
+            const allUnion = getAllUnion("en");
+            console.log("All Union:", allUnion);
+            const thanasUnions = allUnion[thanaId];
+            console.log("Thanas union:", thanasUnions);
+            setUnions(thanasUnions);
+        } else {
+            setUnions([]);
+        }
+
+    }, [formData.thana]);
+
+
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
         // api code will be set here
+        toast.success("New connection successfully submitted.");
 
         console.log('Form submitted:', formData);
     };
@@ -32,64 +96,100 @@ const NewConnectionEntry = () => {
     return (
         <div className="container">
             <div className=" col-xl-6 col-lg-8 col-11 mx-auto my-4">
-                <h2 className=' text-success fw-bold text-center'>New Connection Entry</h2>
+                <h2 className=' text-success fw-bold text-center mt-5 mb-4'>New Connection Entry</h2>
                 <form onSubmit={handleSubmit}>
-                    <div className=' row gap-1'>
-                        <div className="form-floating col mb-3">
-                            <input
-                                type="text"
-                                className="form-control"
-                                id="district"
-                                name="district"
-                                value={formData.district}
+
+                    <div className=' row'>
+                        <div className="col mb-3">
+                            <label htmlFor="division" className="form-label fw-bold ms-1">
+                                Select Division
+                            </label>
+                            <select
+                                name="division"
+                                id="division"
+                                className="form-select"
                                 onChange={handleChange}
-                                placeholder='Enter Distict name'
-                            />
-                            <label htmlFor="district" className=' ms-1'>District</label>
+
+                            >
+                                <option value="">Please Select</option>
+                                {getAllDivision("en").map((item, index) => (
+                                    <option key={index} value={item.value}>
+                                        {item.title}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
 
-                        <div className=" form-floating col mb-3">
-                            <input
-                                type="text"
-                                className="form-control"
-                                id="thana"
-                                name="thana"
-                                value={formData.thana}
-                                onChange={handleChange}
-                                placeholder='Enter thana name'
-                            />
-                            <label htmlFor="thana" className="form-label ms-1">Thana</label>
-                        </div>
-                    </div>
-                    <div className=' row gap-1'>
-                        <div className=" form-floating col mb-3">
-                            <input
-                                type="text"
-                                className="form-control"
-                                id="union"
-                                name="union"
-                                value={formData.union}
-                                onChange={handleChange}
-                                placeholder='Enter Union name'
-                            />
-                            <label htmlFor="union" className="form-label ms-1">Union</label>
-                        </div>
-
-                        <div className=" form-floating col mb-3">
-                            <input
-                                type="text"
-                                className="form-control"
-                                id="village"
-                                name="village"
-                                value={formData.village}
-                                onChange={handleChange}
-                                placeholder='Enter Union name'
-                            />
-                            <label htmlFor="village" className="form-label ms-1">Village</label>
-                        </div>
+                        {districts &&
+                            <div className="col mb-3">
+                                <label htmlFor="districts" className="form-label fw-bold ms-1">
+                                    Select District
+                                </label>
+                                <select
+                                    name="district"
+                                    id="districts"
+                                    className="form-select"
+                                    value={formData.district}
+                                    onChange={handleChange}
+                                >
+                                    <option value="">Please Select</option>
+                                    {districts.map((district, index) => (
+                                        <option key={index} value={district.value}>
+                                            {district.title}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                        }
                     </div>
 
-                    <div className="form-floating mb-3">
+                    <div className=' row'>
+                        {unions &&
+                            <div className="col mb-3">
+                                <label htmlFor="thana" className="form-label fw-bold ms-1">
+                                    Select Thana
+                                </label>
+                                <select
+                                    name="thana"
+                                    id="thana"
+                                    className="form-select"
+                                    value={formData.thana}
+                                    onChange={handleChange}
+                                >
+                                    <option value="">Please Select</option>
+                                    {thanas.map((thana, index) => (
+                                        <option key={index} value={thana.value}>
+                                            {thana.title}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                        }
+
+                        {unions &&
+                            <div className="col mb-3">
+                                <label htmlFor="union" className="form-label fw-bold ms-1">
+                                    Select Union
+                                </label>
+                                <select
+                                    name="union"
+                                    id="union"
+                                    className="form-select"
+                                    value={formData.union}
+                                    onChange={handleChange}
+                                >
+                                    <option value="">Please Select</option>
+                                    {unions.map((union, index) => (
+                                        <option key={index} value={union.value}>
+                                            {union.title}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                        }
+                    </div>
+
+                    <div className="form-floating mb-1">
                         <input
                             type="text"
                             className="form-control"
@@ -102,8 +202,8 @@ const NewConnectionEntry = () => {
                         <label htmlFor="locationName" className="">Location Name</label>
                     </div>
 
-                    <div className=' row gap-1'>
-                        <div className=" form-floating col mb-3">
+                    <div className=' row '>
+                        <div className=" form-floating col mb-1">
                             <input
                                 type="text"
                                 className="form-control"
@@ -115,7 +215,7 @@ const NewConnectionEntry = () => {
                             />
                             <label htmlFor="latitude" className="form-label ms-1">Latitude</label>
                         </div>
-                        <div className="form-floating col mb-3">
+                        <div className="form-floating col mb-1">
                             <input
                                 type="text"
                                 className="form-control"
@@ -129,7 +229,7 @@ const NewConnectionEntry = () => {
                         </div>
                     </div>
 
-                    <div className=" form-floating mb-3">
+                    <div className=" form-floating mb-1">
                         <input
                             type="text"
                             className="form-control"
@@ -142,7 +242,7 @@ const NewConnectionEntry = () => {
                         <label htmlFor="responsible" className="form-label">Responsible Person</label>
                     </div>
 
-                    <div className=" form-floating  mb-3">
+                    <div className=" form-floating  mb-1">
                         <textarea
                             type="text"
                             className="form-control"
@@ -156,7 +256,7 @@ const NewConnectionEntry = () => {
                         <label htmlFor="remarks" className="form-label">Remarks</label>
                     </div>
 
-                    <button type="submit" className="btn btn-primary w-100 fw-bold">Submit</button>
+                    <button type="submit" className="btn btn-success w-100 fw-bold my-3">Submit</button>
                 </form>
             </div>
         </div>
