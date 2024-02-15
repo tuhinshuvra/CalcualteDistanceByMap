@@ -1,19 +1,43 @@
 import { useEffect, useState } from 'react';
-import storeData from '../../data/storeData.json';
+import storeData1 from '../../data/storeData.json';
 import L from 'leaflet';
 import 'leaflet-routing-machine';
 import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
 import SadhinIcon from '../../assets/sadhin.png';
 import './ExistingConnectionStatus.css';
+import configUrl from '../../api/config';
 
 const ExistingConnectionStatus = () => {
+    const [storeData, setStoredData] = useState(null);
     const [map, setMap] = useState(null);
     const [searchData, setSearchData] = useState(null);
     const [estimatedDistance, setEstimatedDistance] = useState(null);
     const [estimatedCost, setEstimatedCost] = useState(null);
     // const [searchResult, setSearchResult] = useState(null);
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`${configUrl.BASEURL}/api/v1/wificonnection`);
+                const data = await response.json();
+                // console.log("All Saved Connections: ", data.status);
+
+                if (data.status === 'success') {
+                    setStoredData(data.data);
+                }
+
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+
     // console.log("Search Data : ", searchData);
+    // console.log("JSON stored Data : ", storeData);
+    // console.log("MongoDB stored Data : ", storeData1);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -64,6 +88,7 @@ const ExistingConnectionStatus = () => {
                     if (nearestStore) {
                         const storeLocation = L.latLng(nearestStore.coordinates[1], nearestStore.coordinates[0]);
 
+
                         const routingControl = L.Routing.control({
                             waypoints: [
                                 L.latLng(center),
@@ -72,7 +97,7 @@ const ExistingConnectionStatus = () => {
                             routeWhileDragging: true
                         }).addTo(myMap);
 
-                        // console.log('Routing control added');
+                        console.log('Routing control added');
 
                         // Add an event listener to the routing control to log instructions
                         routingControl.on('routesfound', function (event) {
@@ -110,12 +135,13 @@ const ExistingConnectionStatus = () => {
                 return L.marker(latlng, { icon: myIcon });
             }
         });
+
         shopsLayer.addTo(myMap);
 
         return () => {
             myMap.remove();
         };
-    }, [searchData]);
+    }, [searchData, storeData]);
 
 
     useEffect(() => {
@@ -135,7 +161,7 @@ const ExistingConnectionStatus = () => {
         return (
             <div>
                 <h4>{shop.name}</h4>
-                <p>{shop.address}</p>
+                <p>{shop.locationName}</p>
                 <div className="phone-number">
                     <a href={`tel:${shop.phone}`}>{shop.phone}</a>
                 </div>
@@ -165,7 +191,7 @@ const ExistingConnectionStatus = () => {
             <li key={index}>
                 <div className="shop-item">
                     <a href="#" onClick={() => flyToStore(shop)}>{shop.name}</a>
-                    <p>{shop.address}</p>
+                    <p>{shop.locationName}</p>
                 </div>
             </li>
         ));
@@ -174,6 +200,7 @@ const ExistingConnectionStatus = () => {
 
 
     // Function to find the nearest store
+
     const findNearestStore = (searchLocation) => {
         if (!storeData || storeData.length === 0) {
             return <li>No store data available.</li>;
@@ -184,13 +211,19 @@ const ExistingConnectionStatus = () => {
         let nearestStore = null;
         let shortestDistance = Infinity;
 
-        for (let i = 0; i < storeData.length; i++) {
-            const store = storeData[i];
-            const storeLocation = L.latLng(store.coordinates[1], store.coordinates[0]);
-            const distance = searchLocation.distanceTo(storeLocation);
-            if (distance < shortestDistance) {
-                shortestDistance = distance;
-                nearestStore = store;
+
+        if (storeData) {
+            for (let i = 0; i < storeData.length; i++) {
+                const store = storeData[i];
+
+                console.log("storeLocation ==>", store);
+                const storeLocation = L.latLng(store.coordinates[1], store.coordinates[0]);
+
+                const distance = searchLocation.distanceTo(storeLocation);
+                if (distance < shortestDistance) {
+                    shortestDistance = distance;
+                    nearestStore = store;
+                }
             }
         }
 

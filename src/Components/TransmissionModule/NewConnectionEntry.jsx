@@ -85,11 +85,11 @@ const NewConnectionEntry = () => {
     }, [formData.thana]);
 
 
-    fetch(`${configUrl.BASEURL}/api/v1/wificonnection`)
-        .then(response => response.json())
-        .then(data => {
-            console.log("All Saved Connedtions: ", data.data);
-        });
+    // fetch(`${configUrl.BASEURL}/api/v1/wificonnection`)
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         console.log("All Saved Connedtions: ", data.data);
+    //     });
 
 
     //     const handleSignupDataSubmit = (event) => {
