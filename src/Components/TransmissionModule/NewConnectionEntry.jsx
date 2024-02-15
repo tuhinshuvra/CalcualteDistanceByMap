@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { getAllDivision, getAllDistrict, getAllUpazila, getAllUnion } from 'bd-divisions-to-unions';
+import configUrl from '../../api/config';
+import Loader from '../Loader/Loader';
 
 // console.log(getAllDivision())
-console.log(getAllDistrict())
+// console.log(getAllDistrict())
 // console.log(getAllUpazila())
 // console.log(getAllUnion())
 
@@ -25,8 +27,9 @@ const NewConnectionEntry = () => {
     const [districts, setDistricts] = useState([]);
     const [thanas, setThanas] = useState([]);
     const [unions, setUnions] = useState([]);
+    const [loading, setLoading] = useState(false);
 
-    console.log("districts list", districts);
+    // console.log("districts list", districts);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -41,9 +44,9 @@ const NewConnectionEntry = () => {
         if (formData.division !== '') {
             const divisionId = formData.division;
             const allDistricts = getAllDistrict("en");
-            console.log("All Districts:", allDistricts);
+            // console.log("All Districts:", allDistricts);
             const divisionDistricts = allDistricts[divisionId];
-            console.log("Division Districts:", divisionDistricts);
+            // console.log("Division Districts:", divisionDistricts);
             setDistricts(divisionDistricts);
         } else {
             setDistricts([]);
@@ -56,14 +59,13 @@ const NewConnectionEntry = () => {
         if (formData.district !== '') {
             const districtId = formData.district;
             const allThana = getAllUpazila("en");
-            console.log("All Thana:", allThana);
+            // console.log("All Thana:", allThana);
             const districtsThanas = allThana[districtId];
-            console.log("Districts Thanas:", districtsThanas);
+            // console.log("Districts Thanas:", districtsThanas);
             setThanas(districtsThanas);
         } else {
             setThanas([]);
         }
-
     }, [formData.district]);
 
 
@@ -72,9 +74,9 @@ const NewConnectionEntry = () => {
         if (formData.thana !== '') {
             const thanaId = formData.thana;
             const allUnion = getAllUnion("en");
-            console.log("All Union:", allUnion);
+            // console.log("All Union:", allUnion);
             const thanasUnions = allUnion[thanaId];
-            console.log("Thanas union:", thanasUnions);
+            // console.log("Thanas union:", thanasUnions);
             setUnions(thanasUnions);
         } else {
             setUnions([]);
@@ -83,15 +85,90 @@ const NewConnectionEntry = () => {
     }, [formData.thana]);
 
 
+    fetch(`${configUrl.BASEURL}/api/v1/wificonnection`)
+        .then(response => response.json())
+        .then(data => {
+            console.log("All Saved Connedtions: ", data.data);
+        });
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
 
-        // api code will be set here
-        toast.success("New connection successfully submitted.");
+    //     const handleSignupDataSubmit = (event) => {
+    //         setLoading(true);
+    //         setErrorMessage("")
+    //         event.preventDefault();
 
-        console.log('Form submitted:', formData);
+    //         setConfirmPasswordError('');
+    //         if (!validatePassword(password, confirmPassword)) {
+    //             setPasswordMatchError('');
+    //             setPasswordPatternError("Password should be at least 8 characters long and must contain an alphabetical character and a numeric character.");
+    //             setLoading(false)
+    //         } else {
+    //             setPasswordPatternError('');
+    //             fetch(`${configUrl.BASEURL}/api/users`, {
+    //                 method: 'POST',
+    //                 headers: {
+    //                     'content-type': 'application/json'
+    //                 },
+    //                 body: JSON.stringify(signUpData)
+    //             })
+    //                 .then(response => response.json())
+    //                 .then(data => {
+    //                     // console.log("Signup Data", data);
+    //                     if (data?.status === 'success') {
+    //                         navigate("/login");
+    //                         setErrorMessage("");
+    //                         setLoading(false);
+    //                     }
+    //                     else {
+    //                         setErrorMessage(data.message)
+    //                         setLoading(false);
+    //                     }
+    //                 })
+    //                 .catch(error => {
+    //                     setErrorMessage("");
+    //                     setLoading(false);
+    //                 })
+    //         }
+    //     }
+    // }
+
+
+
+    const handleSubmit = (event) => {
+        setLoading(true);
+        event.preventDefault();
+
+        fetch(`${configUrl.BASEURL}/api/v1/wificonnection`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log("wificonnection saved data : ", data);
+                if (data.status === "success") {
+                    setLoading(false);
+                    toast.success("New connection successfully submitted.");
+                }
+                else {
+                    setLoading(false);
+                    console.log("Connection saved message:", data.message);
+                }
+            })
+            .catch(error => {
+                console.log("Error Occured : ", error);
+                setLoading(false);
+            })
     };
+
+    if (loading) {
+        return (
+            <Loader></Loader>
+        )
+    }
+
 
     return (
         <div className="container">

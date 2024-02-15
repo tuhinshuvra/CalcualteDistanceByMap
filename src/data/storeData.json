@@ -1,467 +1,312 @@
 [
     {
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [
-                89.623922,
-                22.707802
-            ]
-        },
-        "properties": {
-            "name": "Sadhin WiFi 1",
-            "address": "Betaga Sadhin Mor, Betaga, Fakirhat, Bagerhat, Bangladesh",
-            "phone": "01717996539"
-        }
+        "type": "Point",
+        "coordinates": [
+            89.623922,
+            22.707802
+        ],
+        "name": "Sadhin WiFi 1",
+        "address": "Betaga Sadhin Mor, Betaga, Fakirhat, Bagerhat, Bangladesh",
+        "phone": "01717996539"
     },
     {
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [
-                89.624353,
-                22.708158
-            ]
-        },
-        "properties": {
-            "name": "Sadhin WiFi 2",
-            "address": "Betaga Bazar, Betaga, Fakirhat, Bagerhat, Bangladesh",
-            "phone": "01717996539"
-        }
+        "type": "Point",
+        "coordinates": [
+            89.624353,
+            22.708158
+        ],
+        "name": "Sadhin WiFi 2",
+        "address": "Betaga Bazar, Betaga, Fakirhat, Bagerhat, Bangladesh",
+        "phone": "01717996539"
     },
     {
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [
-                89.650473,
-                22.698043
-            ]
-        },
-        "properties": {
-            "name": "Sadhin WiFi 3",
-            "address": "Chulkathi Bazar, Chulkathi, Bagerhat Sadar, Bagerhat, Bangladesh",
-            "phone": "01717996539"
-        }
+        "type": "Point",
+        "coordinates": [
+            89.650473,
+            22.698043
+        ],
+        "name": "Sadhin WiFi 3",
+        "address": "Chulkathi Bazar, Chulkathi, Bagerhat Sadar, Bagerhat, Bangladesh",
+        "phone": "01717996539"
     },
     {
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [
-                89.650809,
-                22.699078
-            ]
-        },
-        "properties": {
-            "name": "Sadhin WiFi 4",
-            "address": "Chulkathi Bazar, Chilkathi, Bagerhat Sadar, Bagerhat, Bangladesh",
-            "phone": "01717996539"
-        }
+        "type": "Point",
+        "coordinates": [
+            89.650809,
+            22.699078
+        ],
+        "name": "Sadhin WiFi 4",
+        "address": "Chulkathi Bazar, Chilkathi, Bagerhat Sadar, Bagerhat, Bangladesh",
+        "phone": "01717996539"
     },
     {
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [
-                88.54168736568007,
-                24.6456548388379
-            ]
-        },
-        "properties": {
-            "name": "Sadhin WiFi 5",
-            "address": "Unit NO. 6D, Block-17, Phoenix Mills Compound, 462, Senapati Bapat Marg, Lower Parel, Mumbai, Maharashtra 400013, Bangladesh",
-            "phone": "23 2323 2323"
-        }
+        "type": "Point",
+        "coordinates": [
+            88.54168736568007,
+            24.6456548388379
+        ],
+        "name": "Sadhin WiFi 5",
+        "address": "Unit NO. 6D, Block-17, Phoenix Mills Compound, 462, Senapati Bapat Marg, Lower Parel, Mumbai, Maharashtra 400013, Bangladesh",
+        "phone": "23 2323 2323"
     },
     {
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [
-                89.11536861075597,
-                22.484226094841515
-            ]
-        },
-        "properties": {
-            "name": "Sadhin WiFi 6",
-            "address": "Shop No 2, Ground floor Kanakia Zillion, LBS Marg, Kurla West, Mumbai, Maharashtra 400070, Bangladesh",
-            "phone": "23 2323 2323"
-        }
+        "type": "Point",
+        "coordinates": [
+            89.11536861075597,
+            22.484226094841515
+        ],
+        "name": "Sadhin WiFi 6",
+        "address": "Shop No 2, Ground floor Kanakia Zillion, LBS Marg, Kurla West, Mumbai, Maharashtra 400070, Bangladesh",
+        "phone": "23 2323 2323"
     },
     {
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [
-                89.213019,
-                23.408885
-            ]
-        },
-        "properties": {
-            "name": "Sadhin WiFi 7",
-            "address": "Kaliganj Upozila, Satkhira, Bangladesh",
-            "phone": "23 2323 2323"
-        }
+        "type": "Point",
+        "coordinates": [
+            89.213019,
+            23.408885
+        ],
+        "name": "Sadhin WiFi 7",
+        "address": "Kaliganj Upozila, Satkhira, Bangladesh",
+        "phone": "23 2323 2323"
     },
     {
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [
-                90.04253747335678,
-                24.50995116836502
-            ]
-        },
-        "properties": {
-            "name": "Sadhin WiFi 8",
-            "address": "Ground Floor,Shop No. A,Municipal No. 26A & 27A-UA Jawahar Nagar,Kamla Nagar, near Malka Ganj, Chowk, Delhi 110007, Bangladesh",
-            "phone": "23 2323 2323"
-        }
+        "type": "Point",
+        "coordinates": [
+            90.04253747335678,
+            24.50995116836502
+        ],
+        "name": "Sadhin WiFi 8",
+        "address": "Ground Floor,Shop No. A,Municipal No. 26A & 27A-UA Jawahar Nagar,Kamla Nagar, near Malka Ganj, Chowk, Delhi 110007, Bangladesh",
+        "phone": "23 2323 2323"
     },
     {
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [
-                89.16366972638365,
-                24.101556874904914
-            ]
-        },
-        "properties": {
-            "name": "Sadhin WiFi 9",
-            "address": "SHOP NO. 10-11, COMMUNITY CENTRE, Garg Mall, Pocket 4, Sector 11, Rohini, New Delhi, Delhi 110020, Bangladesh",
-            "phone": "23 2323 2323"
-        }
+        "type": "Point",
+        "coordinates": [
+            89.16366972638365,
+            24.101556874904914
+        ],
+        "name": "Sadhin WiFi 9",
+        "address": "SHOP NO. 10-11, COMMUNITY CENTRE, Garg Mall, Pocket 4, Sector 11, Rohini, New Delhi, Delhi 110020, Bangladesh",
+        "phone": "23 2323 2323"
     },
     {
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [
-                89.87168321611398,
-                24.63478531710795
-            ]
-        },
-        "properties": {
-            "name": "Sadhin WiFi 10",
-            "address": "Plot No. 7,LSC, Pankaj Plaza, near Prince Apartments, I.P.Extension, Patparganj, New Delhi, Delhi 110092, Bangladesh",
-            "phone": "23 2323 2323"
-        }
+        "type": "Point",
+        "coordinates": [
+            89.87168321611398,
+            24.63478531710795
+        ],
+        "name": "Sadhin WiFi 10",
+        "address": "Plot No. 7,LSC, Pankaj Plaza, near Prince Apartments, I.P.Extension, Patparganj, New Delhi, Delhi 110092, Bangladesh",
+        "phone": "23 2323 2323"
     },
     {
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [
-                90.79855915782435,
-                24.164828332056093
-            ]
-        },
-        "properties": {
-            "name": "Sadhin WiFi 10",
-            "address": "Plot No.16, Ground Floor, Community Center Rd, Pocket A, Okhla Phase I, Okhla Industrial Area, New Delhi, Delhi 110020, Bangladesh",
-            "phone": "23 2323 2323"
-        }
+        "type": "Point",
+        "coordinates": [
+            90.79855915782435,
+            24.164828332056093
+        ],
+        "name": "Sadhin WiFi 10",
+        "address": "Plot No.16, Ground Floor, Community Center Rd, Pocket A, Okhla Phase I, Okhla Industrial Area, New Delhi, Delhi 110020, Bangladesh",
+        "phone": "23 2323 2323"
     },
     {
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [
-                90.17019029526411,
-                22.84918903327655
-            ]
-        },
-        "properties": {
-            "name": "Sadhin WiFi 11",
-            "address": "Ground Floor, Shop no. 3 & 4, Dist, Chinar Park, Noapara, Sukanta Pally, Newtown, Kolkata, West Bengal 700157, Bangladesh",
-            "phone": "23 2323 2323"
-        }
+        "type": "Point",
+        "coordinates": [
+            90.17019029526411,
+            22.84918903327655
+        ],
+        "name": "Sadhin WiFi 11",
+        "address": "Ground Floor, Shop no. 3 & 4, Dist, Chinar Park, Noapara, Sukanta Pally, Newtown, Kolkata, West Bengal 700157, Bangladesh",
+        "phone": "23 2323 2323"
     },
     {
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [
-                88.503400,
-                24.811298
-            ]
-        },
-        "properties": {
-            "name": "Sadhin WiFi 12",
-            "address": "3A, Humayun Place Near New Empire Cinema, Esplanade, New Market Area, Dharmatala, Kolkata, West Bengal 700087, Bangladesh",
-            "phone": "23 2323 2323"
-        }
+        "type": "Point",
+        "coordinates": [
+            88.503400,
+            24.811298
+        ],
+        "name": "Sadhin WiFi 12",
+        "address": "3A, Humayun Place Near New Empire Cinema, Esplanade, New Market Area, Dharmatala, Kolkata, West Bengal 700087, Bangladesh",
+        "phone": "23 2323 2323"
     },
     {
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [
-                90.61915855662202,
-                24.12602099412846
-            ]
-        },
-        "properties": {
-            "name": "Sadhin WiFi 13",
-            "address": "Municipality, 352/1889, Dakshminayan Barasat Road Under Panhihati, Sodepur, Kolkata, West Bengal 700110, Bangladesh",
-            "phone": "23 2323 2323"
-        }
+        "type": "Point",
+        "coordinates": [
+            90.61915855662202,
+            24.12602099412846
+        ],
+        "name": "Sadhin WiFi 13",
+        "address": "Municipality, 352/1889, Dakshminayan Barasat Road Under Panhihati, Sodepur, Kolkata, West Bengal 700110, Bangladesh",
+        "phone": "23 2323 2323"
     },
     {
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [
-                88.462431,
-                26.266314
-            ]
-        },
-        "properties": {
-            "name": "Sadhin WiFi 14",
-            "address": "Plot No. 99A, Block F, Nalini Ranjan Ave, New Alipore, Kolkata, West Bengal 700053, Bangladesh",
-            "phone": "23 2323 2323"
-        }
+        "type": "Point",
+        "coordinates": [
+            88.462431,
+            26.266314
+        ],
+        "name": "Sadhin WiFi 14",
+        "address": "Plot No. 99A, Block F, Nalini Ranjan Ave, New Alipore, Kolkata, West Bengal 700053, Bangladesh",
+        "phone": "23 2323 2323"
     },
     {
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [
-                89.37714156010686,
-                24.80030586995173
-            ]
-        },
-        "properties": {
-            "name": "Sadhin WiFi 15",
-            "address": "Plot No. 50 & 51, Survey No. 301/2, 313/1, 304/2, Shop No. G - 7 & 8 Ground Floor, Opp. Gujarat High Court, S. G. Road Town Planning Scheme No. 28, Ahmedabad, Gujarat 380061, Bangladesh",
-            "phone": "23 2323 2323"
-        }
+        "type": "Point",
+        "coordinates": [
+            89.37714156010686,
+            24.80030586995173
+        ],
+        "name": "Sadhin WiFi 15",
+        "address": "Plot No. 50 & 51, Survey No. 301/2, 313/1, 304/2, Shop No. G - 7 & 8 Ground Floor, Opp. Gujarat High Court, S. G. Road Town Planning Scheme No. 28, Ahmedabad, Gujarat 380061, Bangladesh",
+        "phone": "23 2323 2323"
     },
     {
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [
-                90.807295,
-                23.987217
-            ]
-        },
-        "properties": {
-            "name": "Sadhin WiFi 16",
-            "address": "Neelgagan Plaza, 1st And 2nd Floor Survey Number 2259 Commissioner Office, Dr Ambedkar Rd, Opposite Police, Jain Colony, Shahibag, Ahmedabad, Gujarat 380004, Bangladesh",
-            "phone": "23 2323 2323"
-        }
+        "type": "Point",
+        "coordinates": [
+            90.807295,
+            23.987217
+        ],
+        "name": "Sadhin WiFi 16",
+        "address": "Neelgagan Plaza, 1st And 2nd Floor Survey Number 2259 Commissioner Office, Dr Ambedkar Rd, Opposite Police, Jain Colony, Shahibag, Ahmedabad, Gujarat 380004, Bangladesh",
+        "phone": "23 2323 2323"
     },
     {
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [
-                92.154724,
-                22.361605
-            ]
-        },
-        "properties": {
-            "name": "Sadhin WiFi 17",
-            "address": "A1 Amrapali Axiom, Sardar Patel Ring Rd, Ambli, Ahmedabad, Gujarat 380058, Bangladesh",
-            "phone": "23 2323 2323"
-        }
+        "type": "Point",
+        "coordinates": [
+            92.154724,
+            22.361605
+        ],
+        "name": "Sadhin WiFi 17",
+        "address": "A1 Amrapali Axiom, Sardar Patel Ring Rd, Ambli, Ahmedabad, Gujarat 380058, Bangladesh",
+        "phone": "23 2323 2323"
     },
     {
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [
-                91.3465359275098,
-                25.32048254040963
-            ]
-        },
-        "properties": {
-            "name": "Sadhin WiFi 18",
-            "address": "Shop Number A/03 & A/04, Ground Floor, Gujarat 382350, Bangladesh",
-            "phone": "23 2323 2323"
-        }
+        "type": "Point",
+        "coordinates": [
+            91.3465359275098,
+            25.32048254040963
+        ],
+        "name": "Sadhin WiFi 18",
+        "address": "Shop Number A/03 & A/04, Ground Floor, Gujarat 382350, Bangladesh",
+        "phone": "23 2323 2323"
     },
     {
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [
-                90.137129,
-                22.017258
-            ]
-        },
-        "properties": {
-            "name": "Sadhin WiFi 19",
-            "address": "Shop no 31/A, Ground floor, Shoppers Orbit, Next Mahalaxsmi Complex Near Visharantwadi Police Chowki, Dhanori Rd, Pune, Maharashtra 411015, Bangladesh",
-            "phone": "23 2323 2323"
-        }
+        "type": "Point",
+        "coordinates": [
+            90.137129,
+            22.017258
+        ],
+        "name": "Sadhin WiFi 19",
+        "address": "Shop no 31/A, Ground floor, Shoppers Orbit, Next Mahalaxsmi Complex Near Visharantwadi Police Chowki, Dhanori Rd, Pune, Maharashtra 411015, Bangladesh",
+        "phone": "23 2323 2323"
     },
     {
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [
-                91.07608876867067,
-                23.19728700126925
-            ]
-        },
-        "properties": {
-            "name": "Sadhin WiFi 20",
-            "address": "Shop No:4,5,14,15,16 & 17 Fortune Plaza, Hadapsar, Pune, Maharashtra 411028, Bangladesh",
-            "phone": "23 2323 2323"
-        }
+        "type": "Point",
+        "coordinates": [
+            91.07608876867067,
+            23.19728700126925
+        ],
+        "name": "Sadhin WiFi 20",
+        "address": "Shop No:4,5,14,15,16 & 17 Fortune Plaza, Hadapsar, Pune, Maharashtra 411028, Bangladesh",
+        "phone": "23 2323 2323"
     },
     {
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [
-                89.34691757204718,
-                24.87901444711464
-            ]
-        },
-        "properties": {
-            "name": "Sadhin WiFi 21",
-            "address": "Plot No. 7, Dhanlaxmi Society, Opp. Jagtap Hospital, Pune, Maharashtra 411051, Bangladesh",
-            "phone": "23 2323 2323"
-        }
+        "type": "Point",
+        "coordinates": [
+            89.34691757204718,
+            24.87901444711464
+        ],
+        "name": "Sadhin WiFi 21",
+        "address": "Plot No. 7, Dhanlaxmi Society, Opp. Jagtap Hospital, Pune, Maharashtra 411051, Bangladesh",
+        "phone": "23 2323 2323"
     },
     {
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [
-                89.84240534826192,
-                23.54045627775965
-            ]
-        },
-        "properties": {
-            "name": "Sadhin WiFi 22",
-            "address": "Bus Stop, Shop No. 6 & 7, opposite Deccan Gymkhana, Pune, Maharashtra 411004, Bangladesh",
-            "phone": "23 2323 2323"
-        }
+        "type": "Point",
+        "coordinates": [
+            89.84240534826192,
+            23.54045627775965
+        ],
+        "name": "Sadhin WiFi 22",
+        "address": "Bus Stop, Shop No. 6 & 7, opposite Deccan Gymkhana, Pune, Maharashtra 411004, Bangladesh",
+        "phone": "23 2323 2323"
     },
     {
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [
-                91.28499349037339,
-                22.92360541737967
-            ]
-        },
-        "properties": {
-            "name": "Sadhin WiFi 23",
-            "address": "Cipla Foundation, Survey No. 116/1, Shop No. 2, Opposite, Warje, Pune, Maharashtra 411058, Bangladesh",
-            "phone": "23 2323 2323"
-        }
+        "type": "Point",
+        "coordinates": [
+            91.28499349037339,
+            22.92360541737967
+        ],
+        "name": "Sadhin WiFi 23",
+        "address": "Cipla Foundation, Survey No. 116/1, Shop No. 2, Opposite, Warje, Pune, Maharashtra 411058, Bangladesh",
+        "phone": "23 2323 2323"
     },
     {
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [
-                90.07726853194493,
-                25.227606073795258
-            ]
-        },
-        "properties": {
-            "name": "Sadhin WiFi 24",
-            "address": "Dukes Complex, 120, Bharathiar Salai, Melapudur, Cantonment, Tiruchirappalli, Tamil Nadu 620001, Bangladesh",
-            "phone": "23 2323 2323"
-        }
+        "type": "Point",
+        "coordinates": [
+            90.07726853194493,
+            25.227606073795258
+        ],
+        "name": "Sadhin WiFi 24",
+        "address": "Dukes Complex, 120, Bharathiar Salai, Melapudur, Cantonment, Tiruchirappalli, Tamil Nadu 620001, Bangladesh",
+        "phone": "23 2323 2323"
     },
     {
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [
-                90.18830827713038,
-                24.25116836286993
-            ]
-        },
-        "properties": {
-            "name": "Sadhin WiFi 25",
-            "address": "Ground Floor, Strand Coffee House, PJ Ramchandani Marg, Apollo Bandar, Colaba, Mumbai, Maharashtra 400005, Bangladesh",
-            "phone": "23 2323 2323"
-        }
+        "type": "Point",
+        "coordinates": [
+            90.18830827713038,
+            24.25116836286993
+        ],
+        "name": "Sadhin WiFi 25",
+        "address": "Ground Floor, Strand Coffee House, PJ Ramchandani Marg, Apollo Bandar, Colaba, Mumbai, Maharashtra 400005, Bangladesh",
+        "phone": "23 2323 2323"
     },
     {
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [
-                90.63492793681552,
-                24.812883990010045
-            ]
-        },
-        "properties": {
-            "name": "Sadhin WiFi 26",
-            "address": "Shop No 7, Ground Floor, Chemox House, Hospital Lane, Barrack Rd, New Marine Lines, Mumbai, Maharashtra 400020, Bangladesh",
-            "phone": "23 2323 2323"
-        }
+        "type": "Point",
+        "coordinates": [
+            90.63492793681552,
+            24.812883990010045
+        ],
+        "name": "Sadhin WiFi 26",
+        "address": "Shop No 7, Ground Floor, Chemox House, Hospital Lane, Barrack Rd, New Marine Lines, Mumbai, Maharashtra 400020, Bangladesh",
+        "phone": "23 2323 2323"
     },
     {
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [
-                90.53563631400213,
-                22.59271916794739
-            ]
-        },
-        "properties": {
-            "name": "Sadhin WiFi 27",
-            "address": "Mathew Rd, Charni Road East, Opera House, Gamdevi, Mumbai, Maharashtra 400004, Bangladesh",
-            "phone": "23 2323 2323"
-        }
+        "type": "Point",
+        "coordinates": [
+            90.53563631400213,
+            22.59271916794739
+        ],
+        "name": "Sadhin WiFi 27",
+        "address": "Mathew Rd, Charni Road East, Opera House, Gamdevi, Mumbai, Maharashtra 400004, Bangladesh",
+        "phone": "23 2323 2323"
     },
     {
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [
-                90.65059713080362,
-                24.96968364733179
-            ]
-        },
-        "properties": {
-            "name": "Sadhin WiFi 28",
-            "address": "Vignesh Plaza, A-6, Ground Floor, Thillai Nagar Main Rd, Tiruchirappalli, Tamil Nadu 620018, Bangladesh",
-            "phone": "23 2323 2323"
-        }
+        "type": "Point",
+        "coordinates": [
+            90.65059713080362,
+            24.96968364733179
+        ],
+        "name": "Sadhin WiFi 28",
+        "address": "Vignesh Plaza, A-6, Ground Floor, Thillai Nagar Main Rd, Tiruchirappalli, Tamil Nadu 620018, Bangladesh",
+        "phone": "23 2323 2323"
     },
     {
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [
-                89.527534,
-                22.864128
-            ]
-        },
-        "properties": {
-            "name": "Sadhin WiFi 29",
-            "address": "Daulatpur, Khulna, Bangladesh",
-            "phone": "23 2323 2323"
-        }
+        "type": "Point",
+        "coordinates": [
+            89.527534,
+            22.864128
+        ],
+        "name": "Sadhin WiFi 29",
+        "address": "Daulatpur, Khulna, Bangladesh",
+        "phone": "23 2323 2323"
     },
     {
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [
-                89.595151,
-                22.462149
-            ]
-        },
-        "properties": {
-            "name": "Sadhin WiFi 30",
-            "address": "Mongla port, Mongla, Bagerhat, Bangladesh",
-            "phone": "23 2323 2323"
-        }
+        "type": "Point",
+        "coordinates": [
+            89.595151,
+            22.462149
+        ],
+        "name": "Sadhin WiFi 30",
+        "address": "Mongla port, Mongla, Bagerhat, Bangladesh",
+        "phone": "23 2323 2323"
     }
 ]

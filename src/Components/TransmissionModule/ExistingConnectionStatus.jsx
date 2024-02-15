@@ -62,7 +62,7 @@ const ExistingConnectionStatus = () => {
 
                     // Calculate the route to the nearest store
                     if (nearestStore) {
-                        const storeLocation = L.latLng(nearestStore.geometry.coordinates[1], nearestStore.geometry.coordinates[0]);
+                        const storeLocation = L.latLng(nearestStore.coordinates[1], nearestStore.coordinates[0]);
 
                         const routingControl = L.Routing.control({
                             waypoints: [
@@ -134,18 +134,18 @@ const ExistingConnectionStatus = () => {
     const makePopupContent = (shop) => {
         return (
             <div>
-                <h4>{shop.properties.name}</h4>
-                <p>{shop.properties.address}</p>
+                <h4>{shop.name}</h4>
+                <p>{shop.address}</p>
                 <div className="phone-number">
-                    <a href={`tel:${shop.properties.phone}`}>{shop.properties.phone}</a>
+                    <a href={`tel:${shop.phone}`}>{shop.phone}</a>
                 </div>
             </div>
         );
     };
 
     const flyToStore = (store) => {
-        const lat = store.geometry.coordinates[1];
-        const lng = store.geometry.coordinates[0];
+        const lat = store.coordinates[1];
+        const lng = store.coordinates[0];
         map.flyTo([lat, lng], 15, { duration: 3 });
         setTimeout(() => {
             L.popup({ closeButton: false, offset: L.point(0, -8) })
@@ -164,8 +164,8 @@ const ExistingConnectionStatus = () => {
         return storeData.map((shop, index) => (
             <li key={index}>
                 <div className="shop-item">
-                    <a href="#" onClick={() => flyToStore(shop)}>{shop.properties.name}</a>
-                    <p>{shop.properties.address}</p>
+                    <a href="#" onClick={() => flyToStore(shop)}>{shop.name}</a>
+                    <p>{shop.address}</p>
                 </div>
             </li>
         ));
@@ -186,7 +186,7 @@ const ExistingConnectionStatus = () => {
 
         for (let i = 0; i < storeData.length; i++) {
             const store = storeData[i];
-            const storeLocation = L.latLng(store.geometry.coordinates[1], store.geometry.coordinates[0]);
+            const storeLocation = L.latLng(store.coordinates[1], store.coordinates[0]);
             const distance = searchLocation.distanceTo(storeLocation);
             if (distance < shortestDistance) {
                 shortestDistance = distance;
