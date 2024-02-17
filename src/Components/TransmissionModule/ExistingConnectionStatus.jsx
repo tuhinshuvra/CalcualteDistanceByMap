@@ -179,6 +179,7 @@ const ExistingConnectionStatus = () => {
                 .setContent(makePopupContent(store))
                 .openOn(map);
         }, 3000);
+
     };
 
     // generateExistingLocationList
