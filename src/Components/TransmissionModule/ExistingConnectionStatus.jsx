@@ -9,7 +9,17 @@ import configUrl from '../../api/config';
 const ExistingConnectionStatus = () => {
     const [storeData, setStoredData] = useState(null);
     const [map, setMap] = useState(null);
-    const [searchData, setSearchData] = useState(null);
+    // const [searchData, setSearchData] = useState(null);
+    const [searchData, setSearchData] = useState({
+        division: '',
+        district: '',
+        thana: '',
+        union: '',
+        village: '',
+        holding: '',
+        direction: '',
+        address: ''
+    });
     const [searchLocationLatLng, setSearchLocationLatLng] = useState(null);
     const [newPos, setNewtPos] = useState(null);
     const [estimatedDistance, setEstimatedDistance] = useState(null);
@@ -36,6 +46,14 @@ const ExistingConnectionStatus = () => {
 
         fetchData();
     }, []);
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setSearchData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
 
 
     const handleSubmit = (event) => {
@@ -248,7 +266,8 @@ const ExistingConnectionStatus = () => {
                                     aria-describedby="division"
                                     // value={division}
                                     // onChange={(e) => setDivision(e.target.value)}
-                                    onChange={(e) => setSearchData({ ...searchData, division: e.target.value })}
+                                    // onChange={(e) => setSearchData({ ...searchData, division: e.target.value })}
+                                    onChange={handleInputChange}
 
                                 />
                             </div>
@@ -262,7 +281,8 @@ const ExistingConnectionStatus = () => {
                                     aria-describedby="district"
                                     // value={district}
                                     // onChange={(e) => setDistrict(e.target.value)}
-                                    onChange={(e) => setSearchData({ ...searchData, district: e.target.value })}
+                                    // onChange={(e) => setSearchData({ ...searchData, district: e.target.value })}
+                                    onChange={handleInputChange}
                                 />
                             </div>
                         </div>
@@ -278,7 +298,8 @@ const ExistingConnectionStatus = () => {
                                     aria-describedby="thana"
                                     // value={thana}
                                     // onChange={(e) => setThana(e.target.value)}
-                                    onChange={(e) => setSearchData({ ...searchData, thana: e.target.value })}
+                                    // onChange={(e) => setSearchData({ ...searchData, thana: e.target.value })}
+                                    onChange={handleInputChange}
                                 />
                             </div>
                             <div className='col'>
@@ -291,7 +312,8 @@ const ExistingConnectionStatus = () => {
                                     aria-describedby="union"
                                     // value={union}
                                     // onChange={(e) => setUnion(e.target.value)}
-                                    onChange={(e) => setSearchData({ ...searchData, union: e.target.value })}
+                                    // onChange={(e) => setSearchData({ ...searchData, union: e.target.value })}
+                                    onChange={handleInputChange}
                                 />
                             </div>
 
@@ -309,7 +331,8 @@ const ExistingConnectionStatus = () => {
                                     aria-describedby="village"
                                     // value={village}
                                     // onChange={(e) => setVillage(e.target.value)}
-                                    onChange={(e) => setSearchData({ ...searchData, village: e.target.value })}
+                                    // onChange={(e) => setSearchData({ ...searchData, village: e.target.value })}
+                                    onChange={handleInputChange}
                                 />
                             </div>
                             <div className='col'>
@@ -322,7 +345,8 @@ const ExistingConnectionStatus = () => {
                                     aria-describedby="holding"
                                     // value={holding}
                                     // onChange={(e) => setHolding(e.target.value)}
-                                    onChange={(e) => setSearchData({ ...searchData, holding: e.target.value })}
+                                    // onChange={(e) => setSearchData({ ...searchData, holding: e.target.value })}
+                                    onChange={handleInputChange}
                                 />
                             </div>
                         </div>
@@ -338,7 +362,8 @@ const ExistingConnectionStatus = () => {
                                 aria-describedby="direction"
                                 // value={direction}
                                 // onChange={(e) => setDirection(e.target.value)}
-                                onChange={(e) => setSearchData({ ...searchData, direction: e.target.value })}
+                                // onChange={(e) => setSearchData({ ...searchData, direction: e.target.value })}
+                                onChange={handleInputChange}
                             />
                         </div>
 
@@ -352,7 +377,8 @@ const ExistingConnectionStatus = () => {
                                 aria-describedby="address"
                                 // value={address}
                                 // onChange={(e) => setAddress(e.target.value)}
-                                onChange={(e) => setSearchData({ ...searchData, address: e.target.value })}
+                                // onChange={(e) => setSearchData({ ...searchData, address: e.target.value })}
+                                onChange={handleInputChange}
                             />
                         </div>
 

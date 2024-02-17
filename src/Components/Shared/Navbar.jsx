@@ -15,7 +15,7 @@ const Navbar = () => {
                             <Link className="nav-link fw-bold" aria-current="page" to="/">Home</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link fw-bold" to="/connectionList">All Connections</Link>
+                            <Link className="nav-link fw-bold" to="/connectionList">New Connection Point</Link>
                         </li>
 
 
@@ -24,7 +24,7 @@ const Navbar = () => {
                                 New Connection
                             </Link>
                             <ul className="dropdown-menu">
-                                <li><Link className="dropdown-item" to="/newConnection">New Connection</Link></li>
+                                <li><Link className="dropdown-item" to="/newConnection">Save New Point</Link></li>
                                 <li><Link className="dropdown-item" to="/newLoop">New Loop</Link></li>
                                 <li><Link className="dropdown-item" to="/newLoop">New Pop</Link></li>
                                 <li><Link className="dropdown-item" to="/newLoop">New TJbox</Link></li>
