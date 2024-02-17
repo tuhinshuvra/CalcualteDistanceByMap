@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import storeData1 from '../../data/storeData.json';
 import L from 'leaflet';
 import 'leaflet-routing-machine';
 import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
@@ -11,9 +10,13 @@ const ExistingConnectionStatus = () => {
     const [storeData, setStoredData] = useState(null);
     const [map, setMap] = useState(null);
     const [searchData, setSearchData] = useState(null);
+    const [searchLocationLatLng, setSearchLocationLatLng] = useState(null);
+    const [newPos, setNewtPos] = useState(null);
     const [estimatedDistance, setEstimatedDistance] = useState(null);
     const [estimatedCost, setEstimatedCost] = useState(null);
     // const [searchResult, setSearchResult] = useState(null);
+
+    console.log("new Dragged Position : ", newPos);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -34,10 +37,6 @@ const ExistingConnectionStatus = () => {
         fetchData();
     }, []);
 
-
-    // console.log("Search Data : ", searchData);
-    // console.log("JSON stored Data : ", storeData);
-    // console.log("MongoDB stored Data : ", storeData1);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -78,16 +77,13 @@ const ExistingConnectionStatus = () => {
             geocoder.geocode(searchLocation, (results) => {
                 if (results && results.length > 0) {
                     const { center } = results[0];
-                    // setSearchResult({ name, latlng: center });
+                    setSearchLocationLatLng(center);
                     myMap.setView(center);
-                    L.marker(center).addTo(myMap);
-
-                    const nearestStore = findNearestStore(center);
 
                     // Calculate the route to the nearest store
+                    const nearestStore = findNearestStore(center);
                     if (nearestStore) {
                         const storeLocation = L.latLng(nearestStore.coordinates[1], nearestStore.coordinates[0]);
-
 
                         const routingControl = L.Routing.control({
                             waypoints: [
@@ -97,9 +93,11 @@ const ExistingConnectionStatus = () => {
                             routeWhileDragging: true
                         }).addTo(myMap);
 
-                        console.log('Routing control added');
+                        routingControl.on('routingstart', (event) => {
+                            const newDraggedPos = event.waypoints[0].latLng;
+                            setNewtPos(newDraggedPos)
+                        });
 
-                        // Add an event listener to the routing control to log instructions
                         routingControl.on('routesfound', function (event) {
                             const routes = event.routes;
                             routes.forEach(function (route, index) {
@@ -118,9 +116,6 @@ const ExistingConnectionStatus = () => {
                 }
             });
         }
-
-        // console.log(`Distance to nearest store: ${estimatedDistance} km`);
-        // console.log(`estimatedCost : ${estimatedCost} TK`);
 
         // Create custom icon
         const myIcon = L.icon({
@@ -142,6 +137,8 @@ const ExistingConnectionStatus = () => {
             myMap.remove();
         };
     }, [searchData, storeData]);
+
+    console.log("searchLocationLatLng ===> ", searchLocationLatLng);
 
 
     useEffect(() => {
@@ -217,7 +214,7 @@ const ExistingConnectionStatus = () => {
             for (let i = 0; i < storeData.length; i++) {
                 const store = storeData[i];
 
-                console.log("storeLocation ==>", store);
+                // console.log("storeLocation ==>", store);
                 const storeLocation = L.latLng(store.coordinates[1], store.coordinates[0]);
 
                 const distance = searchLocation.distanceTo(storeLocation);
@@ -368,7 +365,9 @@ const ExistingConnectionStatus = () => {
                     {
                         estimatedDistance &&
                         <div className=' my-4 fw-bold'>
-                            <h3 className=' fw-bold text-primary'>Estimated Cost</h3>
+                            <p> <b>Selected Position :</b> {newPos?.lat.toFixed(6)},{newPos?.lng.toFixed(6)} </p>
+
+                            <p className=' fw-bold text-primary mb-0'> <b>Estimated Cost</b></p>
                             <p className=' mb-0'>Distance from nearest point = {estimatedDistance} Meter </p>
                             <p className=' mt-0'>Total Cost(SetupCost + Cable ) = {estimatedCost} TK</p>
                         </div>
