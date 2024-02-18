@@ -84,56 +84,6 @@ const NewConnectionEntry = () => {
 
     }, [formData.thana]);
 
-
-    // fetch(`${configUrl.BASEURL}/api/v1/wificonnection`)
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         console.log("All Saved Connedtions: ", data.data);
-    //     });
-
-
-    //     const handleSignupDataSubmit = (event) => {
-    //         setLoading(true);
-    //         setErrorMessage("")
-    //         event.preventDefault();
-
-    //         setConfirmPasswordError('');
-    //         if (!validatePassword(password, confirmPassword)) {
-    //             setPasswordMatchError('');
-    //             setPasswordPatternError("Password should be at least 8 characters long and must contain an alphabetical character and a numeric character.");
-    //             setLoading(false)
-    //         } else {
-    //             setPasswordPatternError('');
-    //             fetch(`${configUrl.BASEURL}/api/users`, {
-    //                 method: 'POST',
-    //                 headers: {
-    //                     'content-type': 'application/json'
-    //                 },
-    //                 body: JSON.stringify(signUpData)
-    //             })
-    //                 .then(response => response.json())
-    //                 .then(data => {
-    //                     // console.log("Signup Data", data);
-    //                     if (data?.status === 'success') {
-    //                         navigate("/login");
-    //                         setErrorMessage("");
-    //                         setLoading(false);
-    //                     }
-    //                     else {
-    //                         setErrorMessage(data.message)
-    //                         setLoading(false);
-    //                     }
-    //                 })
-    //                 .catch(error => {
-    //                     setErrorMessage("");
-    //                     setLoading(false);
-    //                 })
-    //         }
-    //     }
-    // }
-
-
-
     const handleSubmit = (event) => {
         setLoading(true);
         event.preventDefault();

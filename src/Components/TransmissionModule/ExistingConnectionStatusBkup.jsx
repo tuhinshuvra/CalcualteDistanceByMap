@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { getAllDivision, getAllDistrict, getAllUpazila, getAllUnion } from 'bd-divisions-to-unions';
 import L from 'leaflet';
 import 'leaflet-routing-machine';
 import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
@@ -6,7 +7,7 @@ import SadhinIcon from '../../assets/sadhin.png';
 import './ExistingConnectionStatus.css';
 import configUrl from '../../api/config';
 
-const ExistingConnectionStatus = () => {
+const ExistingConnectionStatusBkup = () => {
     const [storeData, setStoredData] = useState(null);
     const [map, setMap] = useState(null);
     // const [searchData, setSearchData] = useState(null);
@@ -21,14 +22,70 @@ const ExistingConnectionStatus = () => {
         address: ''
     });
     const [searchLocationLatLng, setSearchLocationLatLng] = useState(null);
-    const [newPos, setNewPos] = useState(null);
+    const [newPos, setNewtPos] = useState(null);
     const [estimatedDistance, setEstimatedDistance] = useState(null);
     const [estimatedCost, setEstimatedCost] = useState(null);
-    // const [searchResult, setSearchResult] = useState(null);
+    const [districts, setDistricts] = useState([]);
+    const [thanas, setThanas] = useState([]);
+    const [unions, setUnions] = useState([]);
 
-    console.log("new Dragged Position : ", newPos);
-    console.log("searchLocationLatLng Position : ", searchLocationLatLng);
-    // setNewPos(searchLocationLatLng)
+    console.log("search Data: ==>>", searchData);
+
+    // select district   
+    useEffect(() => {
+        // console.log("Division selected:", searchData?.division);
+        if (searchData.division !== '') {
+            const divisionValue = searchData.division;
+            const division = getAllDivision("en").find(item => item.title === divisionValue);
+            if (division) {
+                const divisionId = division.value;
+                const allDistricts = getAllDistrict("en");
+                const divisionDistricts = allDistricts[divisionId];
+                setDistricts(divisionDistricts);
+            }
+        } else {
+            setDistricts([]);
+        }
+    }, [searchData.division]);
+
+    // select thansa   
+    useEffect(() => {
+        console.log("District selected:", searchData?.district);
+        if (searchData.district !== '') {
+            const districtValue = searchData.district;
+            const allDistricts = getAllDistrict("en");
+            const district = Object.values(allDistricts).flat().find(item => item.value === districtValue);
+
+            if (district) {
+                const districtId = district.value;
+                const allThanas = getAllUpazila("en");
+                const districtThanas = allThanas[districtId];
+                setThanas(districtThanas);
+            }
+        } else {
+            setThanas([]);
+        }
+    }, [searchData.district]);
+
+    // select union   
+    useEffect(() => {
+        if (searchData.thana !== '') {
+            const thanaValue = searchData.thana;
+            const allThana = getAllDistrict("en");
+            const thana = Object.values(allThana).flat().find(item => item.value === thanaValue);
+
+            // const thana = getAllUpazila("en").find(item => item.title === thanaValue);
+            if (thana) {
+                const thanaId = thana.value;
+                const allUnions = getAllUnion("en");
+                const thanasUnions = allUnions[thanaId];
+                setUnions(thanasUnions);
+            }
+        } else {
+            setUnions([]);
+        }
+    }, [searchData.thana]);
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -49,32 +106,65 @@ const ExistingConnectionStatus = () => {
         fetchData();
     }, []);
 
+    // const handleInputChange = (e) => {
+    //     const { name, value } = e.target;
+    //     setSearchData(prevState => ({
+    //         ...prevState,
+    //         [name]: value
+    //     }));
+    // };
+
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
+        let title = value; // Default to value if title not found
+
+        if (name === 'division') {
+            const division = getAllDivision("en").find(item => item.value == value);
+            if (division) {
+                title = division.title;
+            }
+        }
+
+        if (name === 'district') {
+            // const district = getAllDistrict("en").find(item => item.value == value);
+            const allDistricts = getAllDistrict("en");
+            const district = Object.values(allDistricts).flat().find(item => item.value === value);
+
+
+            if (district) {
+                title = district.title;
+            }
+        }
+
+        if (name === 'thana') {
+            const thana = getAllUpazila("en").find(item => item.value == value);
+            if (thana) {
+                title = thana.title;
+            }
+        }
+
+        if (name === 'union') {
+            const union = getAllUnion("en").find(item => item.value == value);
+            if (union) {
+                title = union.title;
+            }
+        }
+
         setSearchData(prevState => ({
             ...prevState,
-            [name]: value
+            [name]: title
         }));
     };
+
+
+
 
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        const form = event.target;
-        const division = form.division.value;
-        const district = form.district.value;
-        const thana = form.thana.value;
-        const union = form.union.value;
-        const village = form.village.value;
-        const holding = form.holding.value;
-        const direction = form.direction.value;
-        const address = form.address.value;
 
-        const searchData = {
-            division, district, thana, union, village, holding, direction, address
-        }
-        setSearchData(searchData);
     };
 
     useEffect(() => {
@@ -98,7 +188,6 @@ const ExistingConnectionStatus = () => {
                 if (results && results.length > 0) {
                     const { center } = results[0];
                     setSearchLocationLatLng(center);
-                    setNewPos(center)
                     myMap.setView(center);
 
                     // Calculate the route to the nearest store
@@ -116,14 +205,19 @@ const ExistingConnectionStatus = () => {
 
                         routingControl.on('routingstart', (event) => {
                             const newDraggedPos = event.waypoints[0].latLng;
-                            setNewPos(newDraggedPos)
+                            setNewtPos(newDraggedPos)
                         });
 
                         routingControl.on('routesfound', function (event) {
                             const routes = event.routes;
                             routes.forEach(function (route, index) {
+                                // console.log(`Route ${index + 1}:`);
                                 const distance = route.summary.totalDistance;
                                 setEstimatedDistance(distance);
+                                // console.log(` Routing Step Distance to nearest store: ${distance} meters`);
+                                // route.instructions.forEach(function (instruction, i) {
+                                //     console.log(`Routing Step ${i + 1}: ${instruction.text}`);
+                                // });
                             });
                         });
                     }
@@ -214,6 +308,7 @@ const ExistingConnectionStatus = () => {
 
 
     // Function to find the nearest store
+
     const findNearestStore = (searchLocation) => {
         if (!storeData || storeData.length === 0) {
             return <li>No store data available.</li>;
@@ -239,8 +334,10 @@ const ExistingConnectionStatus = () => {
                 }
             }
         }
+
         return nearestStore;
     };
+
 
     return (
         <div className='d-md-flex'>
@@ -249,7 +346,106 @@ const ExistingConnectionStatus = () => {
                 <div className='addreddBG p-3'>
                     <h3 className=' fw-bold text-primary'>Address</h3>
                     <form onSubmit={handleSubmit}>
-                        {/* <form> */}
+
+                        <div className=' row'>
+                            <div className="col mb-3">
+                                <label htmlFor="division" className="form-label fw-bold ms-1">
+                                    Select Division
+                                </label>
+                                <select
+                                    name="division"
+                                    id="division"
+                                    className="form-select"
+                                    // onChange={handleChange}
+                                    onChange={handleInputChange}
+                                >
+                                    <option value="">Please Select</option>
+                                    {getAllDivision("en").map((item, index) => (
+                                        <option key={index} value={item.value}>
+                                            {item.title}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            {districts &&
+                                <div className="col mb-3">
+                                    <label htmlFor="districts" className="form-label fw-bold ms-1">
+                                        Select District
+                                    </label>
+                                    <select
+                                        name="district"
+                                        id="districts"
+                                        className="form-select"
+                                        value={searchData.district}
+                                        // onChange={handleChange}
+                                        onChange={handleInputChange}
+                                    >
+                                        <option value="">Please Select</option>
+                                        {districts.map((district, index) => (
+                                            <option key={index} value={district.value}>
+                                                {district.title}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                            }
+                        </div>
+
+                        <div className=' row'>
+                            {unions &&
+                                <div className="col mb-3">
+                                    <label htmlFor="thana" className="form-label fw-bold ms-1">
+                                        Select Thana
+                                    </label>
+                                    <select
+                                        name="thana"
+                                        id="thana"
+                                        className="form-select"
+                                        value={searchData.thana}
+                                        // onChange={handleChange}
+                                        onChange={handleInputChange}
+                                    >
+                                        <option value="">Please Select</option>
+                                        {thanas.map((thana, index) => (
+                                            <option key={index} value={thana.value}>
+                                                {thana.title}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                            }
+
+                            {unions &&
+                                <div className="col mb-3">
+                                    <label htmlFor="union" className="form-label fw-bold ms-1">
+                                        Select Union
+                                    </label>
+                                    <select
+                                        name="union"
+                                        id="union"
+                                        className="form-select"
+                                        value={searchData.union}
+                                        // onChange={handleChange}
+                                        onChange={handleInputChange}
+                                    >
+                                        <option value="">Please Select</option>
+                                        {unions.map((union, index) => (
+                                            <option key={index} value={union.value}>
+                                                {union.title}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                            }
+                        </div>
+
+
+
+
+
+
+
                         <div className='row g-3 mb-2'>
                             <div className='col'>
                                 <label htmlFor="division" className="form-label mb-0">Division:</label>
@@ -393,6 +589,7 @@ const ExistingConnectionStatus = () => {
                             <p className=' mt-0'>Total Cost(SetupCost + Cable ) = {estimatedCost} TK</p>
                         </div>
                     }
+
                 </div>
             </div>
             <main className='col-9'>
@@ -411,4 +608,4 @@ const ExistingConnectionStatus = () => {
     );
 };
 
-export default ExistingConnectionStatus;
+export default ExistingConnectionStatusBkup;
