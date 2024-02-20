@@ -19,13 +19,16 @@ const ExistingConnectionStatus = () => {
         address: ''
     });
     const [searchLocationLatLng, setSearchLocationLatLng] = useState(null);
+    const [routingControl, setRoutingControl] = useState(null);
+    const [nearestPoint, setNearestPoint] = useState(null);
     const [newPos, setNewPos] = useState(null);
     const [estimatedDistance, setEstimatedDistance] = useState(null);
     const [estimatedCost, setEstimatedCost] = useState(null);
+    // const [myMap, setMyMap] = useState(null);
     // const [searchResult, setSearchResult] = useState(null);
 
-    console.log("new Dragged Position : ", newPos);
-    console.log("searchLocationLatLng Position : ", searchLocationLatLng);
+    // console.log("new Dragged Position : ", newPos);
+    // console.log("searchLocationLatLng Position : ", searchLocationLatLng);
     // setNewPos(searchLocationLatLng)
 
     useEffect(() => {
@@ -71,6 +74,29 @@ const ExistingConnectionStatus = () => {
         setSearchData(searchData);
     };
 
+
+    // Function to find the nearest store
+    const findNearestStore = (searchLocation) => {
+        let nearestStore = null;
+        let shortestDistance = Infinity;
+
+        if (storeData) {
+            for (let i = 0; i < storeData.length; i++) {
+                const store = storeData[i];
+
+                const storeLocation = L.latLng(store.coordinates[1], store.coordinates[0]);
+                const distance = searchLocation.distanceTo(storeLocation);
+                if (distance < shortestDistance) {
+                    shortestDistance = distance;
+                    nearestStore = store;
+                }
+            }
+        }
+        return nearestStore;
+    };
+
+
+
     useEffect(() => {
         const myMap = L.map('map').setView([23.7984463, 90.4031033], 7);
         const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -106,10 +132,7 @@ const ExistingConnectionStatus = () => {
                             routeWhileDragging: true
                         }).addTo(myMap);
 
-                        routingControl.on('routingstart', (event) => {
-                            const newDraggedPos = event.waypoints[0].latLng;
-                            setNewPos(newDraggedPos)
-                        });
+                        setRoutingControl(routingControl);
 
                         routingControl.on('routesfound', function (event) {
                             const routes = event.routes;
@@ -124,6 +147,8 @@ const ExistingConnectionStatus = () => {
                 }
             });
         }
+
+
 
         // Create custom icon
         const myIcon = L.icon({
@@ -146,6 +171,36 @@ const ExistingConnectionStatus = () => {
     }, [searchData, storeData]);
 
 
+
+    if (routingControl) {
+        routingControl.on('routingstart', (event) => {
+            const newDraggedPos = event.waypoints[0].latLng;
+            setNewPos(newDraggedPos)
+        });
+        if (newPos) {
+            const nearestStore = findNearestStore(newPos);
+            const newNearestStore = nearestStore?.coordinates;
+            console.log("nearestStore coordinates ====>", nearestStore?.name, " ", nearestStore?.coordinates);
+
+            // const routingControl = L.Routing.control({
+            //     waypoints: [
+            //         L.latLng(newPos),
+            //         newNearestStore
+            //     ],
+            //     routeWhileDragging: true
+            // }).addTo(myMap);
+
+            routingControl.on('routesfound', function (event) {
+                const routes = event.routes;
+                routes.forEach(function (route, index) {
+                    const distance = route.summary.totalDistance;
+                    setEstimatedDistance(distance);
+                });
+            });
+        }
+    }
+
+
     useEffect(() => {
         let totalCost = 0;
         const setupCost = 1000;
@@ -154,32 +209,7 @@ const ExistingConnectionStatus = () => {
         setEstimatedCost(totalCost.toFixed(2));
     }, [estimatedDistance]);
 
-    // Function to find the nearest store
-    const findNearestStore = (searchLocation) => {
-        if (!storeData || storeData.length === 0) {
-            return <li>No store data available.</li>;
-        }
 
-        console.log("Store data is available");
-
-        let nearestStore = null;
-        let shortestDistance = Infinity;
-
-
-        if (storeData) {
-            for (let i = 0; i < storeData.length; i++) {
-                const store = storeData[i];
-
-                const storeLocation = L.latLng(store.coordinates[1], store.coordinates[0]);
-                const distance = searchLocation.distanceTo(storeLocation);
-                if (distance < shortestDistance) {
-                    shortestDistance = distance;
-                    nearestStore = store;
-                }
-            }
-        }
-        return nearestStore;
-    };
 
     return (
         <div className='d-md-flex'>
