@@ -18,7 +18,7 @@ const ExistingConnectionStatus = () => {
         direction: '',
         address: ''
     });
-    const [searchLocationLatLng, setSearchLocationLatLng] = useState(null);
+    const [searchLatLng, setSearchLatLng] = useState(null);
     const [routingControl, setRoutingControl] = useState(null);
     const [nearestPoint, setNearestPoint] = useState(null);
     const [newPos, setNewPos] = useState(null);
@@ -111,19 +111,15 @@ const ExistingConnectionStatus = () => {
             geocoder.geocode(searchLocation, (results) => {
                 if (results && results.length > 0) {
                     const { center } = results[0];
-                    setSearchLocationLatLng(center);
+                    setSearchLatLng(center);
                     // setNewPos(center)
                     myMap.setView(center);
-
-                    // console.log("*******Center===>********", center);
 
                     // Calculate the route to the nearest store
                     const nearestStore = findNearestStore(center);
 
-                    // console.log("****************NearestStore********************", nearestStore);
                     if (nearestStore) {
                         const storeLocation = L.latLng(nearestStore.coordinates[1], nearestStore.coordinates[0]);
-                        // console.log("***********Store Location**************", storeLocation);
 
                         const routingControl = L.Routing.control({
                             waypoints: [
@@ -202,10 +198,6 @@ const ExistingConnectionStatus = () => {
                 });
 
                 setRoutingControl(newRoutingControl);
-
-                // console.log("****************New storeLocation********************", storeLocation);
-                // console.log("****************Routing control**********************", routingControl);
-                // console.log("****************NewRoutingControl********************", newRoutingControl);
             }
 
         } catch (error) {
@@ -344,7 +336,15 @@ const ExistingConnectionStatus = () => {
                     {
                         estimatedDistance &&
                         <div className=' my-4 fw-bold'>
-                            <p> <b>Selected Position :</b> {newPos?.lat.toFixed(6)},{newPos?.lng.toFixed(6)} </p>
+                            {newPos ?
+                                <>
+                                    <p> <b>Selected Position :</b> {newPos?.lat.toFixed(6)},{newPos?.lng.toFixed(6)} </p>
+                                </>
+                                :
+                                <>
+                                    <p> <b>Selected Position :</b>  {searchLatLng?.lat.toFixed(6)},{searchLatLng?.lng.toFixed(6)} </p>
+                                </>
+                            }
                             <p className=' fw-bold text-primary mb-0'> <b>Estimated Cost</b></p>
                             <p className=' mb-0'>Distance from nearest point = {estimatedDistance} Meter </p>
                             <p className=' mt-0'>Total Cost(SetupCost + Cable ) = {estimatedCost} TK</p>
