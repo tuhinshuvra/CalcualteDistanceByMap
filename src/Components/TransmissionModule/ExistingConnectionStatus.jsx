@@ -24,12 +24,7 @@ const ExistingConnectionStatus = () => {
     const [newPos, setNewPos] = useState(null);
     const [estimatedDistance, setEstimatedDistance] = useState(null);
     const [estimatedCost, setEstimatedCost] = useState(null);
-    // const [myMap, setMyMap] = useState(null);
-    // const [searchResult, setSearchResult] = useState(null);
-
-    // console.log("new Dragged Position : ", newPos);
-    // console.log("searchLocationLatLng Position : ", searchLocationLatLng);
-    // setNewPos(searchLocationLatLng)
+    const [myMap, setMyMap] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -65,11 +60,12 @@ const ExistingConnectionStatus = () => {
         const union = form.union.value;
         const village = form.village.value;
         const holding = form.holding.value;
-        const direction = form.direction.value;
-        const address = form.address.value;
+        // const direction = form.direction.value;
+        // const address = form.address.value;
 
         const searchData = {
-            division, district, thana, union, village, holding, direction, address
+            division, district, thana, union, village, holding,
+            //  direction, address
         }
         setSearchData(searchData);
     };
@@ -96,9 +92,9 @@ const ExistingConnectionStatus = () => {
     };
 
 
-
     useEffect(() => {
         const myMap = L.map('map').setView([23.7984463, 90.4031033], 7);
+        setMyMap(myMap);
         const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
         const attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 
@@ -116,13 +112,18 @@ const ExistingConnectionStatus = () => {
                 if (results && results.length > 0) {
                     const { center } = results[0];
                     setSearchLocationLatLng(center);
-                    setNewPos(center)
+                    // setNewPos(center)
                     myMap.setView(center);
+
+                    // console.log("*******Center===>********", center);
 
                     // Calculate the route to the nearest store
                     const nearestStore = findNearestStore(center);
+
+                    // console.log("****************NearestStore********************", nearestStore);
                     if (nearestStore) {
                         const storeLocation = L.latLng(nearestStore.coordinates[1], nearestStore.coordinates[0]);
+                        // console.log("***********Store Location**************", storeLocation);
 
                         const routingControl = L.Routing.control({
                             waypoints: [
@@ -142,13 +143,9 @@ const ExistingConnectionStatus = () => {
                             });
                         });
                     }
-                } else {
-                    console.log('No results found for the search location.');
                 }
             });
         }
-
-
 
         // Create custom icon
         const myIcon = L.icon({
@@ -171,34 +168,51 @@ const ExistingConnectionStatus = () => {
     }, [searchData, storeData]);
 
 
-
     if (routingControl) {
         routingControl.on('routingstart', (event) => {
             const newDraggedPos = event.waypoints[0].latLng;
             setNewPos(newDraggedPos)
         });
-        if (newPos) {
-            const nearestStore = findNearestStore(newPos);
-            const newNearestStore = nearestStore?.coordinates;
-            console.log("nearestStore coordinates ====>", nearestStore?.name, " ", nearestStore?.coordinates);
-
-            // const routingControl = L.Routing.control({
-            //     waypoints: [
-            //         L.latLng(newPos),
-            //         newNearestStore
-            //     ],
-            //     routeWhileDragging: true
-            // }).addTo(myMap);
-
-            routingControl.on('routesfound', function (event) {
-                const routes = event.routes;
-                routes.forEach(function (route, index) {
-                    const distance = route.summary.totalDistance;
-                    setEstimatedDistance(distance);
-                });
-            });
-        }
     }
+
+    useEffect(() => {
+        try {
+            if (newPos && routingControl) {
+                const newNearestStore = findNearestStore(newPos);
+                const storeLocation = L.latLng(newNearestStore.coordinates[1], newNearestStore.coordinates[0]);
+                // console.log("*******newPos===>********", newPos);
+
+                routingControl.remove();
+
+                const newRoutingControl = L.Routing.control({
+                    waypoints: [
+                        L.latLng(newPos),
+                        storeLocation
+                    ],
+                    routeWhileDragging: true
+                })
+                    .addTo(myMap);
+
+                newRoutingControl.on('routesfound', function (event) {
+                    const routes = event.routes;
+                    routes.forEach(function (route, index) {
+                        const distance = route.summary.totalDistance;
+                        setEstimatedDistance(distance);
+                    });
+                });
+
+                setRoutingControl(newRoutingControl);
+
+                // console.log("****************New storeLocation********************", storeLocation);
+                // console.log("****************Routing control**********************", routingControl);
+                // console.log("****************NewRoutingControl********************", newRoutingControl);
+            }
+
+        } catch (error) {
+            console.log("Error is useEffect", error);
+        }
+
+    }, [newPos]);
 
 
     useEffect(() => {
@@ -297,7 +311,7 @@ const ExistingConnectionStatus = () => {
                         </div>
 
 
-                        <div className='col mb-2'>
+                        {/* <div className='col mb-2'>
                             <label htmlFor="direction" className="form-label mb-0">Direction:</label>
                             <input
                                 type="text"
@@ -319,7 +333,7 @@ const ExistingConnectionStatus = () => {
                                 aria-describedby="address"
                                 onChange={handleInputChange}
                             />
-                        </div>
+                        </div> */}
 
                         <button type="submit" className="btn btn-primary">
                             Search
