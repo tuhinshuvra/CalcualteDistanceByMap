@@ -3,6 +3,7 @@ import L from 'leaflet';
 import 'leaflet-routing-machine';
 import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
 import SadhinIcon from '../../assets/sadhin.png';
+import NearestPointMarker from '../../assets/selectedLocation.png';
 import configUrl from '../../api/config';
 import './ExistingConnectionStatus.css';
 
@@ -25,6 +26,8 @@ const ExistingConnectionStatus = () => {
     const [estimatedDistance, setEstimatedDistance] = useState(null);
     const [estimatedCost, setEstimatedCost] = useState(null);
     const [myMap, setMyMap] = useState(null);
+    const [nearestStoreMarker, setNearestStoreMarker] = useState(null);
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -126,7 +129,7 @@ const ExistingConnectionStatus = () => {
                                 L.latLng(center),
                                 storeLocation
                             ],
-                            routeWhileDragging: true
+                            routeWhileDragging: true,
                         }).addTo(myMap);
 
                         setRoutingControl(routingControl);
@@ -138,6 +141,12 @@ const ExistingConnectionStatus = () => {
                                 setEstimatedDistance(distance);
                             });
                         });
+                        // Add marker for nearest store
+                        if (nearestStoreMarker) {
+                            nearestStoreMarker.remove();
+                        }
+                        const nearestStoreMarker1 = L.marker(storeLocation, { draggable: false }).addTo(myMap);
+                        setNearestStoreMarker(nearestStoreMarker1);
                     }
                 }
             });
@@ -185,7 +194,7 @@ const ExistingConnectionStatus = () => {
                         L.latLng(newPos),
                         storeLocation
                     ],
-                    routeWhileDragging: true
+                    routeWhileDragging: true,
                 })
                     .addTo(myMap);
 
@@ -196,8 +205,14 @@ const ExistingConnectionStatus = () => {
                         setEstimatedDistance(distance);
                     });
                 });
-
                 setRoutingControl(newRoutingControl);
+
+                // Add marker for nearest store
+                if (nearestStoreMarker) {
+                    nearestStoreMarker.remove();
+                }
+                const nearestStoreMarker1 = L.marker(storeLocation, { draggable: false }).addTo(myMap); // Make this marker not draggable
+                setNearestStoreMarker(nearestStoreMarker1);
             }
 
         } catch (error) {
