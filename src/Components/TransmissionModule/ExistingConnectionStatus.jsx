@@ -23,6 +23,7 @@ const ExistingConnectionStatus = () => {
     const [routingControl, setRoutingControl] = useState(null);
     const [nearestPoint, setNearestPoint] = useState(null);
     const [newPos, setNewPos] = useState(null);
+    const [nearestLocationName, setNearestLocationName] = useState(null);
     const [estimatedDistance, setEstimatedDistance] = useState(null);
     const [estimatedCost, setEstimatedCost] = useState(null);
     const [myMap, setMyMap] = useState(null);
@@ -120,6 +121,7 @@ const ExistingConnectionStatus = () => {
 
                     // Calculate the route to the nearest store
                     const nearestStore = findNearestStore(center);
+                    setNearestLocationName(nearestStore?.locationName);
 
                     if (nearestStore) {
                         const storeLocation = L.latLng(nearestStore.coordinates[1], nearestStore.coordinates[0]);
@@ -184,8 +186,11 @@ const ExistingConnectionStatus = () => {
         try {
             if (newPos && routingControl) {
                 const newNearestStore = findNearestStore(newPos);
+
+                console.log("*******newNearestStore ===>********", newNearestStore?.locationName);
+                setNearestLocationName(newNearestStore?.locationName);
+
                 const storeLocation = L.latLng(newNearestStore.coordinates[1], newNearestStore.coordinates[0]);
-                // console.log("*******newPos===>********", newPos);
 
                 routingControl.remove();
 
@@ -360,9 +365,10 @@ const ExistingConnectionStatus = () => {
                                     <p> <b>Selected Position :</b>  {searchLatLng?.lat.toFixed(6)},{searchLatLng?.lng.toFixed(6)} </p>
                                 </>
                             }
-                            <p className=' fw-bold text-primary mb-0'> <b>Estimated Cost</b></p>
-                            <p className=' mb-0'>Distance from nearest point = {estimatedDistance} Meter </p>
-                            <p className=' mt-0'>Total Cost(SetupCost + Cable ) = {estimatedCost} TK</p>
+                            <p className=' fw-bold text-primary mb-0'> <b>Nearest Shadhin Point Name</b></p>
+                            <p className=' mb-0 small'>{nearestLocationName}</p>
+                            <p className=' fw-bold text-primary mb-0'> <b>Estimated Distance & Cost</b></p>
+                            <p className=' mb-0 small'>Distance & cost = {estimatedDistance} M, {estimatedCost} TK</p>
                         </div>
                     }
                 </div>
