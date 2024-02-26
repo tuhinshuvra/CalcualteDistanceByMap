@@ -7,7 +7,7 @@ import NearestPointMarker from '../../assets/selectedLocation.png';
 import configUrl from '../../api/config';
 import './ExistingConnectionStatus.css';
 
-const ExistingConnectionStatus = () => {
+const ExistingConnectionStatus1 = () => {
     const [storeData, setStoredData] = useState(null);
     const [myMap, setMyMap] = useState(null);
     const [searchData, setSearchData] = useState({
@@ -21,21 +21,28 @@ const ExistingConnectionStatus = () => {
         address: ''
     });
     const [searchLatLng, setSearchLatLng] = useState(null);
+    const [newPos, setNewPos] = useState(null);
+    const [newPos1, setNewPos1] = useState(null);
+    const [newPos2, setNewPos2] = useState(null);
 
+    const [routingControl, setRoutingControl] = useState(null);
     const [routingControlOne, setRoutingControlOne] = useState(null);
     const [routingControlTwo, setRoutingControlTwo] = useState(null);
 
-    const [newPos, setNewPos] = useState(null);
-
+    const [nearestLocationName, setNearestLocationName] = useState(null);
     const [nearestLocationNameOne, setNearestLocationNameOne] = useState(null);
     const [nearestLocationNameTwo, setNearestLocationNameTwo] = useState(null);
 
+    const [estimatedDistance, setEstimatedDistance] = useState(null);
     const [estimatedDistanceOne, setEstimatedDistanceOne] = useState(null);
     const [estimatedDistanceTwo, setEstimatedDistanceTwo] = useState(null);
 
+    const [estimatedCost, setEstimatedCost] = useState(null);
     const [estimatedCostOne, setEstimatedCostOne] = useState(null);
     const [estimatedCostTwo, setEstimatedCostTwo] = useState(null);
 
+
+    const [nearestStoreMarker, setNearestStoreMarker] = useState(null);
     const [nearestStoreMarkerOne, setNearestStoreMarkerOne] = useState(null);
     const [nearestStoreMarkerTwo, setNearestStoreMarkerTwo] = useState(null);
 
@@ -85,6 +92,26 @@ const ExistingConnectionStatus = () => {
     };
 
 
+    // Function to find the nearest store
+    // const findNearestStore = (searchLocation) => {
+    //     let nearestStore = null;
+    //     let shortestDistance = Infinity;
+
+    //     if (storeData) {
+    //         for (let i = 0; i < storeData.length; i++) {
+    //             const store = storeData[i];
+
+    //             const storeLocation = L.latLng(store.coordinates[1], store.coordinates[0]);
+    //             const distance = searchLocation.distanceTo(storeLocation);
+    //             if (distance < shortestDistance) {
+    //                 shortestDistance = distance;
+    //                 nearestStore = store;
+    //             }
+    //         }
+    //     }
+    //     return nearestStore;
+    // };
+
     // Function to find the two nearest store
     const findNearestStores = (searchLocation) => {
         let nearestStores = [null, null];
@@ -131,20 +158,52 @@ const ExistingConnectionStatus = () => {
                 if (results && results.length > 0) {
                     const { center } = results[0];
                     setSearchLatLng(center);
-                    setNewPos(center)
+                    // setNewPos(center)
                     myMap.setView(center);
 
-                    // Calculate the routes to the nearest two store
+                    // Calculate the route to the nearest store
+                    // const nearestStore = findNearestStore(center);
+
+
+                    // if (nearestStore) {
+                    //     const storeLocation = L.latLng(nearestStore.coordinates[1], nearestStore.coordinates[0]);
+
+                    //     const routingControl = L.Routing.control({
+                    //         waypoints: [
+                    //             L.latLng(center),
+                    //             storeLocation
+                    //         ],
+                    //         routeWhileDragging: true,
+                    //         show: false // this (show: false) hide the by deault route direction text show
+                    //     }).addTo(myMap);
+
+                    //     setRoutingControl(routingControl);
+
+                    //     routingControl.on('routesfound', function (event) {
+                    //         const routes = event.routes;
+                    //         routes.forEach(function (route, index) {
+                    //             const distance = route.summary.totalDistance;
+                    //             setEstimatedDistance(distance);
+                    //         });
+                    //     });
+                    //     // Add marker for nearest store
+                    //     if (nearestStoreMarker) {
+                    //         nearestStoreMarker.remove();
+                    //     }
+                    //     const nearestStoreMarker1 = L.marker(storeLocation, { draggable: false }).addTo(myMap);
+                    //     setNearestStoreMarker(nearestStoreMarker1);
+                    // }
+
                     const nearestStores = findNearestStores(center);
-                    setNearestLocationNameOne(nearestStores[0]?.locationName);
-                    setNearestLocationNameTwo(nearestStores[1]?.locationName);
-                    // console.log("Nearest stores ======>>>", nearestStores[0].locationName);
+                    // console.log("Nearest Store 1 out =========>", nearestStores[0].coordinates[1], nearestStores[0].coordinates[0]);
+                    // console.log("Nearest Store 2 out =========>", nearestStores[1].coordinates[1], nearestStores[1].coordinates[0]);
 
                     if (nearestStores) {
                         const storeLocation1 = L.latLng(nearestStores[0].coordinates[1], nearestStores[0].coordinates[0]);
                         const storeLocation2 = L.latLng(nearestStores[1].coordinates[1], nearestStores[1].coordinates[0]);
 
-                        // console.log("Store location One and Two ==>>", storeLocation1, storeLocation2);
+                        // console.log("NearestStores==============>", nearestStores);
+                        // console.log("Nearest two store==============>", storeLocation1, storeLocation2);
 
                         const routingControl1 = L.Routing.control({
                             waypoints: [
@@ -155,6 +214,19 @@ const ExistingConnectionStatus = () => {
                             show: false // this (show: false) hide the by deault route direction text show
                         }).addTo(myMap);
 
+                        const routingControl2 = L.Routing.control({
+                            waypoints: [
+                                L.latLng(center),
+                                storeLocation2
+                            ],
+                            routeWhileDragging: true,
+                            show: false // this (show: false) hide the by deault route direction text show
+                        }).addTo(myMap);
+
+
+                        setRoutingControlOne(routingControl1);
+                        setRoutingControlTwo(routingControl2);
+
                         routingControl1.on('routesfound', function (event) {
                             const routes = event.routes;
                             routes.forEach(function (route, index) {
@@ -163,16 +235,6 @@ const ExistingConnectionStatus = () => {
                             });
                         });
 
-                        const routingControl2 = L.Routing.control({
-                            waypoints: [
-                                L.latLng(center),
-                                storeLocation2
-                            ],
-                            routeWhileDragging: true,
-                            show: false // this (show: false) hide the by deault route direction text show
-                        })
-                        // .addTo(myMap);
-
                         routingControl2.on('routesfound', function (event) {
                             const routes = event.routes;
                             routes.forEach(function (route, index) {
@@ -180,27 +242,28 @@ const ExistingConnectionStatus = () => {
                                 setEstimatedDistanceTwo(distance);
                                 route.route.setOpacity(0);  //this hide the route path for the 2nd nearest point
                             });
+
                         });
 
-                        setRoutingControlOne(routingControl1);
-                        setRoutingControlTwo(routingControl2);
 
+                        // Add marker for nearest store one
                         if (nearestStoreMarkerOne) {
                             nearestStoreMarkerOne.remove();
                         }
                         const nearestStoreMarker1 = L.marker(storeLocation1, { draggable: false }).addTo(myMap);
                         setNearestStoreMarkerOne(nearestStoreMarker1);
 
+                        // Add marker for nearest store two
                         if (nearestStoreMarkerTwo) {
                             nearestStoreMarkerTwo.remove();
                         }
-
                         const nearestStoreMarker2 = L.marker(storeLocation2, { draggable: false }).addTo(myMap);
                         setNearestStoreMarkerTwo(nearestStoreMarker2);
-
-                        const distanceToNearestPointTwo = center.distanceTo(storeLocation2);
-                        setEstimatedDistanceTwo(distanceToNearestPointTwo);
                     }
+
+                    // setNearestLocationName(nearestStore?.locationName);
+                    setNearestLocationNameOne(nearestStores[0]?.locationName);
+                    setNearestLocationNameTwo(nearestStores[1]?.locationName);
                 }
             });
         }
@@ -226,26 +289,81 @@ const ExistingConnectionStatus = () => {
     }, [searchData, storeData]);
 
 
-    if ((routingControlOne || routingControlTwo)) {
+    if (routingControlOne) {
         routingControlOne.on('routingstart', (event) => {
             const newDraggedPos = event.waypoints[0].latLng;
-            setNewPos(newDraggedPos)
+            console.log("New dragged position One =========>", newDraggedPos);
+            setNewPos1(newDraggedPos)
         });
     }
+
+    if (routingControlTwo) {
+        routingControlTwo.on('routingstart', (event) => {
+            const newDraggedPos = event.waypoints[0].latLng;
+            console.log("New dragged position Two =========>", newDraggedPos);
+            setNewPos2(newDraggedPos)
+        });
+    }
+
+    // useEffect(() => {
+    //     try {
+    //         if (newPos && routingControl) {
+    //             const newNearestStore = findNearestStore(newPos);
+
+    //             // console.log("*******newNearestStore ===>********", newNearestStore?.locationName);
+    //             setNearestLocationName(newNearestStore?.locationName);
+
+    //             const storeLocation = L.latLng(newNearestStore.coordinates[1], newNearestStore.coordinates[0]);
+
+    //             routingControl.remove();
+
+    //             const newRoutingControl = L.Routing.control({
+    //                 waypoints: [
+    //                     L.latLng(newPos),
+    //                     storeLocation
+    //                 ],
+    //                 routeWhileDragging: true,
+    //                 show: false // this (show: false) hide the by deault route direction text show
+    //             })
+    //                 .addTo(myMap);
+
+    //             newRoutingControl.on('routesfound', function (event) {
+    //                 const routes = event.routes;
+    //                 routes.forEach(function (route, index) {
+    //                     const distance = route.summary.totalDistance;
+    //                     setEstimatedDistance(distance);
+    //                 });
+    //             });
+    //             setRoutingControl(newRoutingControl);
+
+    //             // Add marker for nearest store
+    //             if (nearestStoreMarker) {
+    //                 nearestStoreMarker.remove();
+    //             }
+    //             const nearestStoreMarker1 = L.marker(storeLocation, { draggable: false }).addTo(myMap); // Make this marker not draggable
+    //             setNearestStoreMarker(nearestStoreMarker1);
+    //         }
+
+    //     } catch (error) {
+    //         console.log("Error is useEffect", error);
+    //     }
+
+    // }, [newPos]);
+
+
+    console.log("After drag new position out ====>", newPos1, newPos2);
 
     useEffect(() => {
         try {
             if (newPos && (routingControlOne || routingControlTwo)) {
                 const newNearestStores = findNearestStores(newPos);
 
-                // console.log("newNearestStores====>>>", newNearestStores);
-                console.log("New Pos ==========>>>", newPos);
-
-                setNearestLocationNameOne(newNearestStores[0]?.locationName);
-                setNearestLocationNameTwo(newNearestStores[1]?.locationName);
+                console.log("*******after drag location nearest Stores ===>********", newPos);
 
                 const storeLocation1 = L.latLng(newNearestStores[0].coordinates[1], newNearestStores[0].coordinates[0]);
                 const storeLocation2 = L.latLng(newNearestStores[1].coordinates[1], newNearestStores[1].coordinates[0]);
+
+                console.log("After drag store One, store Two =====>>>", storeLocation1, storeLocation2);
 
                 routingControlOne.remove();
                 routingControlTwo.remove();
@@ -256,9 +374,17 @@ const ExistingConnectionStatus = () => {
                         storeLocation1
                     ],
                     routeWhileDragging: true,
-                    show: false
+                    show: false // this (show: false) hide the by deault route direction text show
                 }).addTo(myMap);
 
+                const newRoutingControl2 = L.Routing.control({
+                    waypoints: [
+                        L.latLng(newPos),
+                        storeLocation2
+                    ],
+                    routeWhileDragging: true,
+                    show: false // this (show: false) hide the by deault route direction text show
+                }).addTo(myMap);
 
                 newRoutingControl1.on('routesfound', function (event) {
                     const routes = event.routes;
@@ -268,43 +394,34 @@ const ExistingConnectionStatus = () => {
                     });
                 });
 
-                const newRoutingControl2 = L.Routing.control({
-                    waypoints: [
-                        L.latLng(newPos),
-                        storeLocation2
-                    ],
-                    routeWhileDragging: true,
-                    show: false
-                })
-                // .addTo(myMap);
-
-
                 newRoutingControl2.on('routesfound', function (event) {
                     const routes = event.routes;
                     routes.forEach(function (route, index) {
                         const distance = route.summary.totalDistance;
                         setEstimatedDistanceTwo(distance);
+                        route.route.setOpacity(0);  //this hide the route path for the 2nd nearest point
                     });
                 });
 
-                setRoutingControlOne(newRoutingControl1);
-                setRoutingControlTwo(newRoutingControl2);
-
+                // Add marker for nearest store one
                 if (nearestStoreMarkerOne) {
                     nearestStoreMarkerOne.remove();
                 }
                 const nearestStoreMarker1 = L.marker(storeLocation1, { draggable: false }).addTo(myMap);
                 setNearestStoreMarkerOne(nearestStoreMarker1);
 
+                // Add marker for nearest store two
                 if (nearestStoreMarkerTwo) {
                     nearestStoreMarkerTwo.remove();
                 }
-
                 const nearestStoreMarker2 = L.marker(storeLocation2, { draggable: false }).addTo(myMap);
                 setNearestStoreMarkerTwo(nearestStoreMarker2);
 
-                const distanceToNearestPointTwo = newPos.distanceTo(storeLocation2);
-                setEstimatedDistanceTwo(distanceToNearestPointTwo);
+                // setRoutingControlOne(newRoutingControl1);
+                // setRoutingControlTwo(newRoutingControl2);
+
+                setNearestLocationNameOne(newNearestStores[0]?.locationName);
+                setNearestLocationNameTwo(newNearestStores[1]?.locationName);
             }
 
         } catch (error) {
@@ -315,17 +432,26 @@ const ExistingConnectionStatus = () => {
 
 
     useEffect(() => {
+        let totalCost = 0;
+        const setupCost = 1000;
+
+        totalCost = setupCost + estimatedDistance * 15;
+        setEstimatedCost(totalCost.toFixed(2));
+    }, [estimatedDistance]);
+
+    useEffect(() => {
         let totalCost1 = 0;
         let totalCost2 = 0;
         const setupCost = 1000;
 
         totalCost1 = setupCost + estimatedDistanceOne * 15;
-        setEstimatedCostOne(totalCost1.toFixed(2));
-
         totalCost2 = setupCost + estimatedDistanceTwo * 15;
+
+        setEstimatedCostOne(totalCost1.toFixed(2));
         setEstimatedCostTwo(totalCost2.toFixed(2));
 
     }, [estimatedDistanceOne, estimatedDistanceTwo]);
+
 
 
     return (
@@ -335,6 +461,7 @@ const ExistingConnectionStatus = () => {
                 <div className='addreddBG p-3'>
                     <h3 className=' fw-bold text-primary'>Address</h3>
                     <form onSubmit={handleSubmit}>
+                        {/* <form> */}
                         <div className='row g-3 mb-2'>
                             <div className='col'>
                                 <label htmlFor="division" className="form-label mb-0">Division:</label>
@@ -372,7 +499,6 @@ const ExistingConnectionStatus = () => {
                                     onChange={handleInputChange}
                                 />
                             </div>
-
                             <div className='col'>
                                 <label htmlFor="union" className="form-label mb-0">CityCorporation/Union:</label>
                                 <input
@@ -384,6 +510,8 @@ const ExistingConnectionStatus = () => {
                                     onChange={handleInputChange}
                                 />
                             </div>
+
+
                         </div>
 
                         <div className='row g-3 mb-2'>
@@ -398,7 +526,6 @@ const ExistingConnectionStatus = () => {
                                     onChange={handleInputChange}
                                 />
                             </div>
-
                             <div className='col'>
                                 <label htmlFor="holding" className="form-label mb-0">HoldingNo:</label>
                                 <input
@@ -437,14 +564,15 @@ const ExistingConnectionStatus = () => {
                             />
                         </div> */}
 
-                        {/* <button type="submit" className="btn btn-primary">
+                        <button type="submit" className="btn btn-primary">
                             Search
-                        </button> */}
+                        </button>
 
                     </form>
-                    {
-                        (estimatedDistanceOne || estimatedCostTwo) &&
-                        <div className=' my-4 small'>
+
+                    {/* {
+                        estimatedDistance &&
+                        <div className=' my-4 fw-bold'>
                             {newPos ?
                                 <>
                                     <p> <b>Selected Position :</b> {newPos?.lat.toFixed(6)},{newPos?.lng.toFixed(6)} </p>
@@ -454,8 +582,32 @@ const ExistingConnectionStatus = () => {
                                     <p> <b>Selected Position :</b>  {searchLatLng?.lat.toFixed(6)},{searchLatLng?.lng.toFixed(6)} </p>
                                 </>
                             }
-                            <p className='mb-0'> <b>1st nearest ShadhinPoint, estimated cost and distance : </b> {nearestLocationNameOne},  {estimatedDistanceOne?.toFixed(2)} M, {estimatedCostOne} TK</p>
-                            <p className='mb-0'> <b>2nd nearest ShadhinPoint, estimated cost and distance : </b> {nearestLocationNameTwo}   {estimatedDistanceTwo?.toFixed(2)} M, {estimatedCostTwo} TK</p>
+                            <p className=' fw-bold text-primary mb-0'> <b>Nearest Shadhin Point Name</b></p>
+                            <p className=' mb-0 small'>{nearestLocationName}</p>
+                            <p className=' fw-bold text-primary mb-0'> <b>Estimated Distance & Cost</b></p>
+                            <p className=' mb-0 small'>Distance & cost = {estimatedDistance} M, {estimatedCost} TK</p>
+                        </div>
+                    } */}
+
+                    {
+                        (estimatedDistanceOne || estimatedDistanceTwo) &&
+                        <div className=' my-4'>
+                            {newPos ?
+                                <>
+                                    <p> <b>Selected Position :</b> {newPos?.lat.toFixed(6)},{newPos?.lng.toFixed(6)} </p>
+                                </>
+                                :
+                                <>
+                                    <p> <b>Selected Position :</b>  {searchLatLng?.lat.toFixed(6)},{searchLatLng?.lng.toFixed(6)} </p>
+                                </>
+                            }
+
+                            <p className='text-primary mb-0 small'> <b>1st Nearest Shadhin Point Name: </b>{nearestLocationNameOne}</p>
+                            <p className='text-primary mb-0 small'> <b>2nd Nearest Shadhin Point Name: </b>{nearestLocationNameTwo}</p>
+
+                            <p className=' fw-bold text-primary mb-0'> <b>Estimated Distance & Cost</b></p>
+                            <p className=' mb-0 small'>Distance1 & cost = {estimatedDistanceOne} M, {estimatedCostOne} TK</p>
+                            <p className=' mb-0 small'>Distance2 & cost = {estimatedDistanceTwo} M, {estimatedCostTwo} TK</p>
                         </div>
                     }
                 </div>
@@ -467,4 +619,4 @@ const ExistingConnectionStatus = () => {
     );
 };
 
-export default ExistingConnectionStatus;
+export default ExistingConnectionStatus1;
