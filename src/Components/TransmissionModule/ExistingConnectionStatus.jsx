@@ -32,6 +32,7 @@ const ExistingConnectionStatus = () => {
 
     const [estimatedDistanceOne, setEstimatedDistanceOne] = useState(null);
     const [estimatedDistanceTwo, setEstimatedDistanceTwo] = useState(null);
+    const [excessiveDistance, setExcessiveDistance] = useState(false);
 
     const [estimatedCostOne, setEstimatedCostOne] = useState(null);
     const [estimatedCostTwo, setEstimatedCostTwo] = useState(null);
@@ -325,7 +326,16 @@ const ExistingConnectionStatus = () => {
         totalCost2 = setupCost + estimatedDistanceTwo * 15;
         setEstimatedCostTwo(totalCost2.toFixed(2));
 
+        if (estimatedDistanceOne > 5000) {
+            // console.log("ExcessiveDistance =======>");
+            setExcessiveDistance(true);
+        } else {
+            setExcessiveDistance(false);
+        }
+
     }, [estimatedDistanceOne, estimatedDistanceTwo]);
+
+    // console.log("estimatedDistanceOne : ==========>>>", estimatedDistanceOne);
 
 
     return (
@@ -442,22 +452,45 @@ const ExistingConnectionStatus = () => {
                         </button> */}
 
                     </form>
-                    {
-                        (estimatedDistanceOne || estimatedCostTwo) &&
-                        <div className=' my-4 small'>
-                            {newPos ?
-                                <>
-                                    <p> <b>Selected Position :</b> {newPos?.lat.toFixed(6)},{newPos?.lng.toFixed(6)} </p>
-                                </>
-                                :
-                                <>
+
+
+                    <div className=' my-4 small'>
+                        {newPos ?
+                            <>
+                                <p> <b>Selected Position :</b> {newPos?.lat.toFixed(6)},{newPos?.lng.toFixed(6)} </p>
+                            </>
+                            :
+                            <>
+                                {searchLatLng ?
                                     <p> <b>Selected Position :</b>  {searchLatLng?.lat.toFixed(6)},{searchLatLng?.lng.toFixed(6)} </p>
-                                </>
-                            }
-                            <p className='mb-0'> <b>1st nearest ShadhinPoint, estimated cost and distance : </b> {nearestLocationNameOne},  {estimatedDistanceOne?.toFixed(2)} M, {estimatedCostOne} TK</p>
-                            <p className='mb-0'> <b>2nd nearest ShadhinPoint, estimated cost and distance : </b> {nearestLocationNameTwo}   {estimatedDistanceTwo?.toFixed(2)} M, {estimatedCostTwo} TK</p>
-                        </div>
-                    }
+                                    :
+                                    <>
+                                        <h4 className='fw-bold text-center text-success mx-0'>Plese write your address</h4>
+                                    </>
+                                }
+                            </>
+                        }
+
+                        {
+                            excessiveDistance &&
+                            <div className=' text-center'>
+                                <h6 className=' mt-3 mb-1 text-primary' >Nearest Shadhin WifiPoint location is more than 5KM </h6>
+                                <p className=' fw-bold text-success'>Please contact on 01958615673 or 0195861567 </p>
+                            </div>
+                        }
+
+                        {
+                            estimatedDistanceOne && <>
+                                <p className=''> <b>1st nearest ShadhinPoint, estimated cost and distance : </b> {nearestLocationNameOne},  {estimatedDistanceOne?.toFixed(2)} M, {estimatedCostOne} TK</p>
+                            </>
+                        }
+                        {
+                            estimatedDistanceTwo && <>
+                                <p className='mb-0'> <b>2nd nearest ShadhinPoint, estimated cost and distance : </b> {nearestLocationNameTwo}   {estimatedDistanceTwo?.toFixed(2)} M, {estimatedCostTwo} TK</p>
+                            </>
+                        }
+
+                    </div>
                 </div>
             </div>
             <main className='col-9'>
