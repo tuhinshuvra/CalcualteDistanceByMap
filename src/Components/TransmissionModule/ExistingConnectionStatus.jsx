@@ -27,6 +27,9 @@ const ExistingConnectionStatus = () => {
 
     const [newPos, setNewPos] = useState(null);
 
+    const [nearestStoreOne, setNearestStoreOne] = useState(null);
+    const [nearestStoreTwo, setNearestStoreTwo] = useState(null);
+
     const [nearestLocationNameOne, setNearestLocationNameOne] = useState(null);
     const [nearestLocationNameTwo, setNearestLocationNameTwo] = useState(null);
 
@@ -39,7 +42,6 @@ const ExistingConnectionStatus = () => {
 
     const [nearestStoreMarkerOne, setNearestStoreMarkerOne] = useState(null);
     const [nearestStoreMarkerTwo, setNearestStoreMarkerTwo] = useState(null);
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -137,8 +139,8 @@ const ExistingConnectionStatus = () => {
 
                     // Calculate the routes to the nearest two store
                     const nearestStores = findNearestStores(center);
-                    setNearestLocationNameOne(nearestStores[0]?.locationName);
-                    setNearestLocationNameTwo(nearestStores[1]?.locationName);
+                    // setNearestLocationNameOne(nearestStores[0]?.locationName);
+                    // setNearestLocationNameTwo(nearestStores[1]?.locationName);
                     // console.log("Nearest stores ======>>>", nearestStores[0].locationName);
 
                     if (nearestStores) {
@@ -159,8 +161,8 @@ const ExistingConnectionStatus = () => {
                         routingControl1.on('routesfound', function (event) {
                             const routes = event.routes;
                             routes.forEach(function (route, index) {
-                                const distance = route.summary.totalDistance;
-                                setEstimatedDistanceOne(distance);
+                                // const distance = route.summary.totalDistance;
+                                // setEstimatedDistanceOne(distance);
                             });
                         });
 
@@ -177,8 +179,8 @@ const ExistingConnectionStatus = () => {
                         routingControl2.on('routesfound', function (event) {
                             const routes = event.routes;
                             routes.forEach(function (route, index) {
-                                const distance = route.summary.totalDistance;
-                                setEstimatedDistanceTwo(distance);
+                                // const distance = route.summary.totalDistance;
+                                // setEstimatedDistanceTwo(distance);
                                 route.route.setOpacity(0);  //this hide the route path for the 2nd nearest point
                             });
                         });
@@ -199,8 +201,13 @@ const ExistingConnectionStatus = () => {
                         const nearestStoreMarker2 = L.marker(storeLocation2, { draggable: false }).addTo(myMap);
                         setNearestStoreMarkerTwo(nearestStoreMarker2);
 
-                        const distanceToNearestPointTwo = center.distanceTo(storeLocation2);
-                        setEstimatedDistanceTwo(distanceToNearestPointTwo);
+                        const point1 = center.distanceTo(storeLocation1);
+                        const point2 = center.distanceTo(storeLocation2);
+
+                        console.log("PointOne and PointTwo ====>>>", point1, point2);
+
+                        setEstimatedDistanceOne(point1);
+                        setEstimatedDistanceTwo(point2);
                     }
                 }
             });
@@ -264,8 +271,8 @@ const ExistingConnectionStatus = () => {
                 newRoutingControl1.on('routesfound', function (event) {
                     const routes = event.routes;
                     routes.forEach(function (route, index) {
-                        const distance = route.summary.totalDistance;
-                        setEstimatedDistanceOne(distance);
+                        // const distance = route.summary.totalDistance;
+                        // setEstimatedDistanceOne(distance);
                     });
                 });
 
@@ -283,8 +290,8 @@ const ExistingConnectionStatus = () => {
                 newRoutingControl2.on('routesfound', function (event) {
                     const routes = event.routes;
                     routes.forEach(function (route, index) {
-                        const distance = route.summary.totalDistance;
-                        setEstimatedDistanceTwo(distance);
+                        // const distance = route.summary.totalDistance;
+                        // setEstimatedDistanceTwo(distance);
                     });
                 });
 
@@ -304,8 +311,14 @@ const ExistingConnectionStatus = () => {
                 const nearestStoreMarker2 = L.marker(storeLocation2, { draggable: false }).addTo(myMap);
                 setNearestStoreMarkerTwo(nearestStoreMarker2);
 
-                const distanceToNearestPointTwo = newPos.distanceTo(storeLocation2);
-                setEstimatedDistanceTwo(distanceToNearestPointTwo);
+
+                const point1 = newPos.distanceTo(storeLocation1);
+                const point2 = newPos.distanceTo(storeLocation2);
+
+                console.log("PointOne and PointTwo ====>>>", point1, point2);
+
+                setEstimatedDistanceOne(point1);
+                setEstimatedDistanceTwo(point2);
             }
 
         } catch (error) {
