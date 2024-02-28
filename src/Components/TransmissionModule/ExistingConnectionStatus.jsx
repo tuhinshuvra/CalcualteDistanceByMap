@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet-routing-machine';
 import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
-import SadhinIcon from '../../assets/sadhin.png';
-import NearestPointMarker from '../../assets/selectedLocation.png';
+import WifiPointIcon from '../../assets/sadhin.png';
+import searchedPointIcon from '../../assets/selectedLocation.png';
 import configUrl from '../../api/config';
 import './ExistingConnectionStatus.css';
 
@@ -21,14 +21,12 @@ const ExistingConnectionStatus = () => {
         address: ''
     });
     const [searchLatLng, setSearchLatLng] = useState(null);
+    const [searchMarker, setSearchMarker] = useState(null);
 
     const [routingControlOne, setRoutingControlOne] = useState(null);
     const [routingControlTwo, setRoutingControlTwo] = useState(null);
 
     const [newPos, setNewPos] = useState(null);
-
-    const [nearestStoreOne, setNearestStoreOne] = useState(null);
-    const [nearestStoreTwo, setNearestStoreTwo] = useState(null);
 
     const [nearestLocationNameOne, setNearestLocationNameOne] = useState(null);
     const [nearestLocationNameTwo, setNearestLocationNameTwo] = useState(null);
@@ -114,6 +112,19 @@ const ExistingConnectionStatus = () => {
     };
 
 
+    // Create wifiPointIcon icon
+    const wifiPointIcon = L.icon({
+        iconUrl: WifiPointIcon,
+        iconSize: [30, 36]
+    });
+
+    // Create searchPointIcon icon
+    const searchIcon = L.icon({
+        iconUrl: searchedPointIcon,
+        iconSize: [25, 36]
+    });
+
+
     useEffect(() => {
         const myMap = L.map('map').setView([23.7984463, 90.4031033], 7);
         setMyMap(myMap);
@@ -139,9 +150,6 @@ const ExistingConnectionStatus = () => {
 
                     // Calculate the routes to the nearest two store
                     const nearestStores = findNearestStores(center);
-                    // setNearestLocationNameOne(nearestStores[0]?.locationName);
-                    // setNearestLocationNameTwo(nearestStores[1]?.locationName);
-                    // console.log("Nearest stores ======>>>", nearestStores[0].locationName);
 
                     if (nearestStores) {
                         const storeLocation1 = L.latLng(nearestStores[0].coordinates[1], nearestStores[0].coordinates[0]);
@@ -150,40 +158,17 @@ const ExistingConnectionStatus = () => {
                         // console.log("Store location One and Two ==>>", storeLocation1, storeLocation2);
 
                         const routingControl1 = L.Routing.control({
-                            waypoints: [
-                                L.latLng(center),
-                                storeLocation1
-                            ],
+                            waypoints: [L.latLng(center), storeLocation1],
                             routeWhileDragging: true,
                             show: false // this (show: false) hide the by deault route direction text show
                         }).addTo(myMap);
 
-                        routingControl1.on('routesfound', function (event) {
-                            const routes = event.routes;
-                            routes.forEach(function (route, index) {
-                                // const distance = route.summary.totalDistance;
-                                // setEstimatedDistanceOne(distance);
-                            });
-                        });
-
                         const routingControl2 = L.Routing.control({
-                            waypoints: [
-                                L.latLng(center),
-                                storeLocation2
-                            ],
+                            waypoints: [L.latLng(center), storeLocation2],
                             routeWhileDragging: true,
                             show: false // this (show: false) hide the by deault route direction text show
                         })
                         // .addTo(myMap);
-
-                        routingControl2.on('routesfound', function (event) {
-                            const routes = event.routes;
-                            routes.forEach(function (route, index) {
-                                // const distance = route.summary.totalDistance;
-                                // setEstimatedDistanceTwo(distance);
-                                route.route.setOpacity(0);  //this hide the route path for the 2nd nearest point
-                            });
-                        });
 
                         setRoutingControlOne(routingControl1);
                         setRoutingControlTwo(routingControl2);
@@ -204,8 +189,6 @@ const ExistingConnectionStatus = () => {
                         const point1 = center.distanceTo(storeLocation1);
                         const point2 = center.distanceTo(storeLocation2);
 
-                        console.log("PointOne and PointTwo ====>>>", point1, point2);
-
                         setEstimatedDistanceOne(point1);
                         setEstimatedDistanceTwo(point2);
                     }
@@ -213,16 +196,10 @@ const ExistingConnectionStatus = () => {
             });
         }
 
-        // Create custom icon
-        const myIcon = L.icon({
-            iconUrl: SadhinIcon,
-            iconSize: [30, 36]
-        });
-
         // Add GeoJSON layer with custom icon and onEachFeature function
         const shopsLayer = L.geoJSON(storeData, {
             pointToLayer: function (feature, latlng) {
-                return L.marker(latlng, { icon: myIcon });
+                return L.marker(latlng, { icon: wifiPointIcon });
             }
         });
 
@@ -246,9 +223,6 @@ const ExistingConnectionStatus = () => {
             if (newPos && (routingControlOne || routingControlTwo)) {
                 const newNearestStores = findNearestStores(newPos);
 
-                // console.log("newNearestStores====>>>", newNearestStores);
-                console.log("New Pos ==========>>>", newPos);
-
                 setNearestLocationNameOne(newNearestStores[0]?.locationName);
                 setNearestLocationNameTwo(newNearestStores[1]?.locationName);
 
@@ -259,41 +233,17 @@ const ExistingConnectionStatus = () => {
                 routingControlTwo.remove();
 
                 const newRoutingControl1 = L.Routing.control({
-                    waypoints: [
-                        L.latLng(newPos),
-                        storeLocation1
-                    ],
+                    waypoints: [L.latLng(newPos), storeLocation1],
                     routeWhileDragging: true,
                     show: false
                 }).addTo(myMap);
 
-
-                newRoutingControl1.on('routesfound', function (event) {
-                    const routes = event.routes;
-                    routes.forEach(function (route, index) {
-                        // const distance = route.summary.totalDistance;
-                        // setEstimatedDistanceOne(distance);
-                    });
-                });
-
                 const newRoutingControl2 = L.Routing.control({
-                    waypoints: [
-                        L.latLng(newPos),
-                        storeLocation2
-                    ],
+                    waypoints: [L.latLng(newPos), storeLocation2],
                     routeWhileDragging: true,
                     show: false
                 })
                 // .addTo(myMap);
-
-
-                newRoutingControl2.on('routesfound', function (event) {
-                    const routes = event.routes;
-                    routes.forEach(function (route, index) {
-                        // const distance = route.summary.totalDistance;
-                        // setEstimatedDistanceTwo(distance);
-                    });
-                });
 
                 setRoutingControlOne(newRoutingControl1);
                 setRoutingControlTwo(newRoutingControl2);
@@ -311,11 +261,8 @@ const ExistingConnectionStatus = () => {
                 const nearestStoreMarker2 = L.marker(storeLocation2, { draggable: false }).addTo(myMap);
                 setNearestStoreMarkerTwo(nearestStoreMarker2);
 
-
                 const point1 = newPos.distanceTo(storeLocation1);
                 const point2 = newPos.distanceTo(storeLocation2);
-
-                console.log("PointOne and PointTwo ====>>>", point1, point2);
 
                 setEstimatedDistanceOne(point1);
                 setEstimatedDistanceTwo(point2);
@@ -326,7 +273,6 @@ const ExistingConnectionStatus = () => {
         }
 
     }, [newPos]);
-
 
     useEffect(() => {
         let totalCost1 = 0;
@@ -340,16 +286,12 @@ const ExistingConnectionStatus = () => {
         setEstimatedCostTwo(totalCost2.toFixed(2));
 
         if (estimatedDistanceOne > 5000) {
-            // console.log("ExcessiveDistance =======>");
             setExcessiveDistance(true);
         } else {
             setExcessiveDistance(false);
         }
 
     }, [estimatedDistanceOne, estimatedDistanceTwo]);
-
-    // console.log("estimatedDistanceOne : ==========>>>", estimatedDistanceOne);
-
 
     return (
         <div className='d-md-flex'>
@@ -409,7 +351,7 @@ const ExistingConnectionStatus = () => {
                             </div>
                         </div>
 
-                        <div className='row g-3 mb-2'>
+                        <div className='row g-3 mb-0'>
                             <div className='col'>
                                 <label htmlFor="village" className="form-label mb-0">Village/WordNo:</label>
                                 <input
@@ -478,7 +420,7 @@ const ExistingConnectionStatus = () => {
                                     <p> <b>Selected Position :</b>  {searchLatLng?.lat.toFixed(6)},{searchLatLng?.lng.toFixed(6)} </p>
                                     :
                                     <>
-                                        <h4 className='fw-bold text-center text-success mx-0'>Plese write your address</h4>
+                                        <h4 className='fw-bold text-center text-success mx-0 mt-0'>Please write your address</h4>
                                     </>
                                 }
                             </>
