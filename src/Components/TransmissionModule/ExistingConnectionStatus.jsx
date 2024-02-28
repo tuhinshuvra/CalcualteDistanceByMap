@@ -160,15 +160,21 @@ const ExistingConnectionStatus = () => {
                         const routingControl1 = L.Routing.control({
                             waypoints: [L.latLng(center), storeLocation1],
                             routeWhileDragging: true,
-                            show: false // this (show: false) hide the by deault route direction text show
+                            show: false, // this (show: false) hide the by deault route direction text show
+                            lineOptions: {
+                                styles: [{ color: 'green', opacity: 0.8, weight: 3 }]
+                            },
                         }).addTo(myMap);
 
                         const routingControl2 = L.Routing.control({
                             waypoints: [L.latLng(center), storeLocation2],
                             routeWhileDragging: true,
-                            show: false // this (show: false) hide the by deault route direction text show
-                        })
-                        // .addTo(myMap);
+                            show: false, // this (show: false) hide the by deault route direction text show
+                            lineOptions: {
+                                styles: [{ color: '#6A5ACD', opacity: 0.8, weight: 3 }]
+                            },
+                            createMarker: function () { return null; }
+                        }).addTo(myMap);
 
                         setRoutingControlOne(routingControl1);
                         setRoutingControlTwo(routingControl2);
@@ -235,15 +241,21 @@ const ExistingConnectionStatus = () => {
                 const newRoutingControl1 = L.Routing.control({
                     waypoints: [L.latLng(newPos), storeLocation1],
                     routeWhileDragging: true,
-                    show: false
+                    show: false,
+                    lineOptions: {
+                        styles: [{ color: 'green', opacity: 0.8, weight: 3 }]
+                    },
                 }).addTo(myMap);
 
                 const newRoutingControl2 = L.Routing.control({
                     waypoints: [L.latLng(newPos), storeLocation2],
                     routeWhileDragging: true,
-                    show: false
-                })
-                // .addTo(myMap);
+                    show: false,
+                    lineOptions: {
+                        styles: [{ color: '#6A5ACD', opacity: 0.8, weight: 3 }]
+                    },
+                    createMarker: function () { return null; }
+                }).addTo(myMap);
 
                 setRoutingControlOne(newRoutingControl1);
                 setRoutingControlTwo(newRoutingControl2);
