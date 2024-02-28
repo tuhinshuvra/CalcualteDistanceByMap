@@ -162,7 +162,7 @@ const ExistingConnectionStatus = () => {
                             routeWhileDragging: true,
                             show: false, // this (show: false) hide the by deault route direction text show
                             lineOptions: {
-                                styles: [{ color: 'green', opacity: 0.8, weight: 3 }]
+                                styles: [{ color: '#5533FF', opacity: 0.8, weight: 5 }]
                             },
                         }).addTo(myMap);
 
@@ -171,7 +171,7 @@ const ExistingConnectionStatus = () => {
                             routeWhileDragging: true,
                             show: false, // this (show: false) hide the by deault route direction text show
                             lineOptions: {
-                                styles: [{ color: '#6A5ACD', opacity: 0.8, weight: 3 }]
+                                styles: [{ color: '#FFFC33', opacity: 0.8, weight: 5 }]
                             },
                             createMarker: function () { return null; }
                         }).addTo(myMap);
@@ -243,7 +243,7 @@ const ExistingConnectionStatus = () => {
                     routeWhileDragging: true,
                     show: false,
                     lineOptions: {
-                        styles: [{ color: 'green', opacity: 0.8, weight: 3 }]
+                        styles: [{ color: '#5533FF', opacity: 0.8, weight: 5 }]
                     },
                 }).addTo(myMap);
 
@@ -252,7 +252,7 @@ const ExistingConnectionStatus = () => {
                     routeWhileDragging: true,
                     show: false,
                     lineOptions: {
-                        styles: [{ color: '#6A5ACD', opacity: 0.8, weight: 3 }]
+                        styles: [{ color: '#FFFC33', opacity: 0.8, weight: 5 }]
                     },
                     createMarker: function () { return null; }
                 }).addTo(myMap);
