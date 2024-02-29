@@ -3,7 +3,9 @@ import L from 'leaflet';
 import 'leaflet-routing-machine';
 import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
 import WifiPointIcon from '../../assets/sadhin.png';
-import searchedPointIcon from '../../assets/selectedLocation.png';
+import SPIcon from '../../assets/selectedLocation.png';
+import NPIconOne from '../../assets/locaionOne.png';
+import NPIconTwo from '../../assets/locationTwo.png';
 import configUrl from '../../api/config';
 import './ExistingConnectionStatus.css';
 
@@ -22,11 +24,10 @@ const ExistingConnectionStatus = () => {
     });
     const [searchLatLng, setSearchLatLng] = useState(null);
     const [searchMarker, setSearchMarker] = useState(null);
+    const [newPos, setNewPos] = useState(null);
 
     const [routingControlOne, setRoutingControlOne] = useState(null);
     const [routingControlTwo, setRoutingControlTwo] = useState(null);
-
-    const [newPos, setNewPos] = useState(null);
 
     const [nearestLocationNameOne, setNearestLocationNameOne] = useState(null);
     const [nearestLocationNameTwo, setNearestLocationNameTwo] = useState(null);
@@ -53,7 +54,6 @@ const ExistingConnectionStatus = () => {
                 console.error("Error fetching data:", error);
             }
         };
-
         fetchData();
     }, []);
 
@@ -119,8 +119,20 @@ const ExistingConnectionStatus = () => {
     });
 
     // Create searchPointIcon icon
-    const searchIcon = L.icon({
-        iconUrl: searchedPointIcon,
+    const searchPointIcon = L.icon({
+        iconUrl: SPIcon,
+        iconSize: [25, 36]
+    });
+
+    // Create nearestPointIcon icon One
+    const nearestPointIcon1 = L.icon({
+        iconUrl: NPIconOne,
+        iconSize: [25, 36]
+    });
+
+    // Create nearestPointIcon icon Two
+    const nearestPointIcon2 = L.icon({
+        iconUrl: NPIconTwo,
         iconSize: [25, 36]
     });
 
@@ -141,12 +153,15 @@ const ExistingConnectionStatus = () => {
             // Initialize the geocoder control
             const geocoder = L.Control.Geocoder.nominatim();
 
+
             geocoder.geocode(searchLocation, (results) => {
                 if (results && results.length > 0) {
                     const { center } = results[0];
                     setSearchLatLng(center);
                     setNewPos(center)
                     myMap.setView(center);
+
+                    // .addTo(myMap);
 
                     // Calculate the routes to the nearest two store
                     const nearestStores = findNearestStores(center);
@@ -155,8 +170,6 @@ const ExistingConnectionStatus = () => {
                         const storeLocation1 = L.latLng(nearestStores[0].coordinates[1], nearestStores[0].coordinates[0]);
                         const storeLocation2 = L.latLng(nearestStores[1].coordinates[1], nearestStores[1].coordinates[0]);
 
-                        // console.log("Store location One and Two ==>>", storeLocation1, storeLocation2);
-
                         const routingControl1 = L.Routing.control({
                             waypoints: [L.latLng(center), storeLocation1],
                             routeWhileDragging: true,
@@ -164,6 +177,7 @@ const ExistingConnectionStatus = () => {
                             lineOptions: {
                                 styles: [{ color: '#5533FF', opacity: 0.8, weight: 5 }]
                             },
+                            createMarker: function () { return null; }
                         }).addTo(myMap);
 
                         const routingControl2 = L.Routing.control({
@@ -179,17 +193,26 @@ const ExistingConnectionStatus = () => {
                         setRoutingControlOne(routingControl1);
                         setRoutingControlTwo(routingControl2);
 
+                        if (searchMarker) {
+                            searchMarker.remove();
+                        }
+                        const searchMarkerIcon = L.marker(center, { icon: searchPointIcon, draggable: true }).addTo(myMap);
+                        searchMarkerIcon.on('dragend', function (event) {
+                            const newPos = event.target.getLatLng();
+                            setNewPos(newPos);
+                        });
+                        setSearchMarker(searchMarkerIcon);
+
                         if (nearestStoreMarkerOne) {
                             nearestStoreMarkerOne.remove();
                         }
-                        const nearestStoreMarker1 = L.marker(storeLocation1, { draggable: false }).addTo(myMap);
+                        const nearestStoreMarker1 = L.marker(storeLocation1, { icon: nearestPointIcon1, draggable: false }).addTo(myMap);
                         setNearestStoreMarkerOne(nearestStoreMarker1);
 
                         if (nearestStoreMarkerTwo) {
                             nearestStoreMarkerTwo.remove();
                         }
-
-                        const nearestStoreMarker2 = L.marker(storeLocation2, { draggable: false }).addTo(myMap);
+                        const nearestStoreMarker2 = L.marker(storeLocation2, { icon: nearestPointIcon2, draggable: false }).addTo(myMap);
                         setNearestStoreMarkerTwo(nearestStoreMarker2);
 
                         const point1 = center.distanceTo(storeLocation1);
@@ -216,14 +239,6 @@ const ExistingConnectionStatus = () => {
         };
     }, [searchData, storeData]);
 
-
-    if ((routingControlOne || routingControlTwo)) {
-        routingControlOne.on('routingstart', (event) => {
-            const newDraggedPos = event.waypoints[0].latLng;
-            setNewPos(newDraggedPos)
-        });
-    }
-
     useEffect(() => {
         try {
             if (newPos && (routingControlOne || routingControlTwo)) {
@@ -245,6 +260,7 @@ const ExistingConnectionStatus = () => {
                     lineOptions: {
                         styles: [{ color: '#5533FF', opacity: 0.8, weight: 5 }]
                     },
+                    createMarker: function () { return null; }
                 }).addTo(myMap);
 
                 const newRoutingControl2 = L.Routing.control({
@@ -260,17 +276,26 @@ const ExistingConnectionStatus = () => {
                 setRoutingControlOne(newRoutingControl1);
                 setRoutingControlTwo(newRoutingControl2);
 
+                if (searchMarker) {
+                    searchMarker.remove();
+                }
+                const searchMarkerIcon = L.marker(newPos, { icon: searchPointIcon, draggable: true }).addTo(myMap);
+                searchMarkerIcon.on('dragend', function (event) {
+                    const newPos = event.target.getLatLng();
+                    setNewPos(newPos);
+                });
+                setSearchMarker(searchMarkerIcon);
+
                 if (nearestStoreMarkerOne) {
                     nearestStoreMarkerOne.remove();
                 }
-                const nearestStoreMarker1 = L.marker(storeLocation1, { draggable: false }).addTo(myMap);
+                const nearestStoreMarker1 = L.marker(storeLocation1, { icon: nearestPointIcon1, draggable: false }).addTo(myMap);
                 setNearestStoreMarkerOne(nearestStoreMarker1);
 
                 if (nearestStoreMarkerTwo) {
                     nearestStoreMarkerTwo.remove();
                 }
-
-                const nearestStoreMarker2 = L.marker(storeLocation2, { draggable: false }).addTo(myMap);
+                const nearestStoreMarker2 = L.marker(storeLocation2, { icon: nearestPointIcon2, draggable: false }).addTo(myMap);
                 setNearestStoreMarkerTwo(nearestStoreMarker2);
 
                 const point1 = newPos.distanceTo(storeLocation1);
@@ -307,8 +332,7 @@ const ExistingConnectionStatus = () => {
 
     return (
         <div className='d-md-flex'>
-            <div className='formArea col-3'>
-
+            <div className='col-3 formArea'>
                 <div className='addreddBG p-3'>
                     <h3 className=' fw-bold text-primary'>Address</h3>
                     <form onSubmit={handleSubmit}>
