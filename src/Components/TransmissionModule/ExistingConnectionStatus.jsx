@@ -177,6 +177,7 @@ const ExistingConnectionStatus = () => {
                             lineOptions: {
                                 styles: [{ color: '#5533FF', opacity: 0.8, weight: 5 }]
                             },
+                            // profile: 'mapbox/walking', // Add the walking profile
                             createMarker: function () { return null; }
                         }).addTo(myMap);
 
@@ -187,6 +188,7 @@ const ExistingConnectionStatus = () => {
                             lineOptions: {
                                 styles: [{ color: '#FFFC33', opacity: 0.8, weight: 5 }]
                             },
+                            // profile: 'mapbox/walking', // Add the walking profile
                             createMarker: function () { return null; }
                         }).addTo(myMap);
 
@@ -207,12 +209,14 @@ const ExistingConnectionStatus = () => {
                             nearestStoreMarkerOne.remove();
                         }
                         const nearestStoreMarker1 = L.marker(storeLocation1, { icon: nearestPointIcon1, draggable: false }).addTo(myMap);
+                        // nearestStoreMarker1.getElement().classList.add('blink');
                         setNearestStoreMarkerOne(nearestStoreMarker1);
 
                         if (nearestStoreMarkerTwo) {
                             nearestStoreMarkerTwo.remove();
                         }
                         const nearestStoreMarker2 = L.marker(storeLocation2, { icon: nearestPointIcon2, draggable: false }).addTo(myMap);
+                        // nearestStoreMarker2.getElement().classList.add('blink');
                         setNearestStoreMarkerTwo(nearestStoreMarker2);
 
                         const point1 = center.distanceTo(storeLocation1);
@@ -260,6 +264,7 @@ const ExistingConnectionStatus = () => {
                     lineOptions: {
                         styles: [{ color: '#5533FF', opacity: 0.8, weight: 5 }]
                     },
+                    // profile: 'mapbox/walking', // Add the walking profile
                     createMarker: function () { return null; }
                 }).addTo(myMap);
 
@@ -270,6 +275,7 @@ const ExistingConnectionStatus = () => {
                     lineOptions: {
                         styles: [{ color: '#FFFC33', opacity: 0.8, weight: 5 }]
                     },
+                    // profile: 'mapbox/walking', // Add the walking profile
                     createMarker: function () { return null; }
                 }).addTo(myMap);
 
@@ -290,12 +296,14 @@ const ExistingConnectionStatus = () => {
                     nearestStoreMarkerOne.remove();
                 }
                 const nearestStoreMarker1 = L.marker(storeLocation1, { icon: nearestPointIcon1, draggable: false }).addTo(myMap);
+                // nearestStoreMarker1.getElement().classList.add('blink');
                 setNearestStoreMarkerOne(nearestStoreMarker1);
 
                 if (nearestStoreMarkerTwo) {
                     nearestStoreMarkerTwo.remove();
                 }
                 const nearestStoreMarker2 = L.marker(storeLocation2, { icon: nearestPointIcon2, draggable: false }).addTo(myMap);
+                // nearestStoreMarker2.getElement().classList.add('blink');
                 setNearestStoreMarkerTwo(nearestStoreMarker2);
 
                 const point1 = newPos.distanceTo(storeLocation1);
