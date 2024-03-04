@@ -192,6 +192,22 @@ const ExistingConnectionStatus = () => {
                             createMarker: function () { return null; }
                         }).addTo(myMap);
 
+                        routingControl1.on('routesfound', function (event) {
+                            const routes = event.routes;
+                            routes.forEach(function (route, index) {
+                                const distance = route.summary.totalDistance;
+                                setEstimatedDistanceOne(distance);
+                            });
+                        });
+
+                        routingControl2.on('routesfound', function (event) {
+                            const routes = event.routes;
+                            routes.forEach(function (route, index) {
+                                const distance = route.summary.totalDistance;
+                                setEstimatedDistanceTwo(distance);
+                            });
+                        });
+
                         setRoutingControlOne(routingControl1);
                         setRoutingControlTwo(routingControl2);
 
@@ -219,11 +235,7 @@ const ExistingConnectionStatus = () => {
                         // nearestStoreMarker2.getElement().classList.add('blink');
                         setNearestStoreMarkerTwo(nearestStoreMarker2);
 
-                        const point1 = center.distanceTo(storeLocation1);
-                        const point2 = center.distanceTo(storeLocation2);
 
-                        setEstimatedDistanceOne(point1);
-                        setEstimatedDistanceTwo(point2);
                     }
                 }
             });
@@ -279,6 +291,22 @@ const ExistingConnectionStatus = () => {
                     createMarker: function () { return null; }
                 }).addTo(myMap);
 
+                newRoutingControl1.on('routesfound', function (event) {
+                    const routes = event.routes;
+                    routes.forEach(function (route, index) {
+                        const distance = route.summary.totalDistance;
+                        setEstimatedDistanceOne(distance);
+                    });
+                });
+
+                newRoutingControl2.on('routesfound', function (event) {
+                    const routes = event.routes;
+                    routes.forEach(function (route, index) {
+                        const distance = route.summary.totalDistance;
+                        setEstimatedDistanceTwo(distance);
+                    });
+                });
+
                 setRoutingControlOne(newRoutingControl1);
                 setRoutingControlTwo(newRoutingControl2);
 
@@ -306,11 +334,9 @@ const ExistingConnectionStatus = () => {
                 // nearestStoreMarker2.getElement().classList.add('blink');
                 setNearestStoreMarkerTwo(nearestStoreMarker2);
 
-                const point1 = newPos.distanceTo(storeLocation1);
-                const point2 = newPos.distanceTo(storeLocation2);
 
-                setEstimatedDistanceOne(point1);
-                setEstimatedDistanceTwo(point2);
+
+                console.log("Estimated Distance One and Two===>>>", estimatedDistanceOne, estimatedDistanceTwo);
             }
 
         } catch (error) {
@@ -479,15 +505,21 @@ const ExistingConnectionStatus = () => {
                         }
 
                         {
-                            estimatedDistanceOne && <>
-                                <p className=''> <b>1st nearest ShadhinPoint, estimated cost and distance : </b> {nearestLocationNameOne},  {estimatedDistanceOne?.toFixed(2)} M, {estimatedCostOne} TK</p>
-                            </>
+                            (estimatedDistanceOne && estimatedDistanceTwo) &&
+                                (estimatedDistanceOne < estimatedDistanceTwo)
+                                ?
+                                <>
+                                    <p className=''> <b>nearest ShadhinPoint, estimated cost and distance : </b> {nearestLocationNameOne},  {estimatedDistanceOne?.toFixed(2)} M, {estimatedCostOne} TK</p>
+                                    <p className='mb-0'> <b>2nd nearest ShadhinPoint, estimated cost and distance : </b> {nearestLocationNameTwo},   {estimatedDistanceTwo?.toFixed(2)} M, {estimatedCostTwo} TK</p>
+                                </>
+                                :
+                                <>
+                                    <p className=''> <b>nearest ShadhinPoint, estimated cost and distance : </b> {nearestLocationNameTwo},  {estimatedDistanceTwo?.toFixed(2)} M, {estimatedCostTwo} TK</p>
+                                    <p className='mb-0'> <b>2nd nearest ShadhinPoint, estimated cost and distance : </b> {nearestLocationNameOne},   {estimatedDistanceOne?.toFixed(2)} M, {estimatedCostOne} TK</p>
+                                </>
+
                         }
-                        {
-                            estimatedDistanceTwo && <>
-                                <p className='mb-0'> <b>2nd nearest ShadhinPoint, estimated cost and distance : </b> {nearestLocationNameTwo}   {estimatedDistanceTwo?.toFixed(2)} M, {estimatedCostTwo} TK</p>
-                            </>
-                        }
+
 
                     </div>
                 </div>
